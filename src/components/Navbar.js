@@ -121,7 +121,6 @@ function Navbar() {
           <li className="font-light hover:text-blue-500 ">Collection</li>
           <li className="font-light hover:text-blue-500 ">About Us</li>
           <li className="font-light hover:text-blue-500 ">Contact</li>
-          <li className="font-light hover:text-blue-500 ">Create Post</li>
         </ul>
       </div>
     </div>
