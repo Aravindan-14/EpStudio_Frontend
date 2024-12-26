@@ -13,7 +13,7 @@ function Register() {
   const handelSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("process.env.APIBASEURL/register", data)
+      .post("https://epstudio-api.onrender.com/register", data)
       .then((res) => {
         alert(res.data);
         setData("");

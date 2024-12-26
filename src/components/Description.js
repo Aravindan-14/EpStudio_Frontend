@@ -34,7 +34,7 @@ function Description() {
 
   useEffect(() => {
     axios
-      .get(`process.env.APIBASEURL/product/${id}`)
+      .get(`https://epstudio-api.onrender.com/product/${id}`)
       .then((res) => {
         setData(res.data);
       })
@@ -81,28 +81,40 @@ function Description() {
               <SwiperSlide>
                 <img
                   className="object-center lg:h-[500px] md:h[300px]"
-                  src={`process.env.APIBASEURL/public/Products/` + image[0]}
+                  src={
+                    `https://epstudio-api.onrender.com/public/Products/` +
+                    image[0]
+                  }
                   alt=""
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
                   className="object-center lg:h-[500px] md:h[300px]"
-                  src={`process.env.APIBASEURL/public/Products/` + image[1]}
+                  src={
+                    `https://epstudio-api.onrender.com/public/Products/` +
+                    image[1]
+                  }
                   alt=""
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
                   className="object-center lg:h-[500px] md:h[300px]"
-                  src={`process.env.APIBASEURL/public/Products/` + image[2]}
+                  src={
+                    `https://epstudio-api.onrender.com/public/Products/` +
+                    image[2]
+                  }
                   alt=""
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
                   className="object-center lg:h-[500px] md:h[300px]"
-                  src={`process.env.APIBASEURL/public/Products/` + image[3]}
+                  src={
+                    `https://epstudio-api.onrender.com/public/Products/` +
+                    image[3]
+                  }
                   alt=""
                 />
               </SwiperSlide>

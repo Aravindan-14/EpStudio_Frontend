@@ -16,7 +16,7 @@ const DataProvider = ({ children }) => {
     }
 
     axios
-      .get("process.env.APIBASEURL/verify", {
+      .get("https://epstudio-api.onrender.com/verify", {
         headers: { "Auth-token": token },
       })
       .then((response) => {

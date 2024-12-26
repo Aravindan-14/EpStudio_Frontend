@@ -120,7 +120,7 @@ function Purchase() {
     formData.append("User_ID", users.id);
 
     axios
-      .post("process.env.APIBASEURL/purchase/order", formData)
+      .post("https://epstudio-api.onrender.com/purchase/order", formData)
       .then((res) => {
         if (res) {
           Swal.fire({

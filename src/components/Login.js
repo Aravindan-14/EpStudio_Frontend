@@ -13,10 +13,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("process.env.APIBASEURL/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://epstudio-api.onrender.com/login",
+        {
+          email,
+          password,
+        }
+      );
       if (response.data.code == 200) {
         console.log(response.data.data.token);
 

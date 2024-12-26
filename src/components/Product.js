@@ -9,7 +9,7 @@ function Product() {
   const [notFound, setNotFound] = useState(false);
   useEffect(() => {
     axios
-      .get("process.env.APIBASEURL/product/allProducts")
+      .get("https://epstudio-api.onrender.com/product/allProducts")
       .then((res) => setProducts(res.data))
       .catch((err) => {
         console.log(err);
@@ -64,7 +64,10 @@ function Product() {
                 <div className="border bg-white hover:scale-105 duration-500">
                   <img
                     className="hover:opacity-70 p-1 md:p-5"
-                    src={`process.env.APIBASEURL/public/Products/` + image[3]}
+                    src={
+                      `https://epstudio-api.onrender.com/public/Products/` +
+                      image[3]
+                    }
                     alt=""
                   />
                   <div className="md:p-5 px-2 flex justify-center items-center flex-col">

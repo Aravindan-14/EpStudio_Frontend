@@ -136,7 +136,7 @@ function OrderList({ show }) {
   useEffect(() => {
     const getUserOrders = async () => {
       const res = await axios.get(
-        "process.env.APIBASEURL/purchase/getUserOrders"
+        "https://epstudio-api.onrender.com/purchase/getUserOrders"
       );
       console.log(res.data);
       if (res.status == 200) {
@@ -235,7 +235,7 @@ function OrderList({ show }) {
                         <td className="py-3 px-6  whitespace-nowrap flex justify-center">
                           <img
                             className="h-10 w-10 object-cover"
-                            src={`process.env.APIBASEURL/public/Customer/${item.image}`}
+                            src={`https://epstudio-api.onrender.com/public/Customer/${item.image}`}
                             alt=""
                             onClick={() => {
                               setimg(item.image);
@@ -299,7 +299,7 @@ function OrderList({ show }) {
               onClick={closeFullscreen}
             >
               <img
-                src={`process.env.APIBASEURL/public/Customer/${img}`}
+                src={`https://epstudio-api.onrender.com/public/Customer/${img}`}
                 alt={img}
                 className="max-w-[90%] max-h-[90%]"
               />

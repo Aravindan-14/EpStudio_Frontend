@@ -30,7 +30,7 @@ function CreatePost() {
     try {
       setIsSubmitted(false);
       const res = await axios.post(
-        "process.env.APIBASEURL/product/creaditProduct",
+        "https://epstudio-api.onrender.com/product/creaditProduct",
         formData
       );
       console.log(res.data);

@@ -5,7 +5,7 @@ function AllProduct() {
   const [allProduct, setAllProduct] = useState([]);
   useEffect(() => {
     axios
-      .get("process.env.APIBASEURL/product/allProducts")
+      .get("https://epstudio-api.onrender.com/product/allProducts")
       .then((res) => setAllProduct(res.data))
       .catch((err) => {
         console.log(err);
@@ -17,7 +17,7 @@ function AllProduct() {
   const deleteProdectById = async (id) => {
     try {
       const response = await axios.post(
-        "process.env.APIBASEURL/product/deleteById",
+        "https://epstudio-api.onrender.com/product/deleteById",
         { id }
       );
       console.log("Product deleted successfully:", response.data);
@@ -47,7 +47,10 @@ function AllProduct() {
                 <td className="px-6 py-4 h-20 w-20 bg-red-200 m-2">
                   <img
                     className="h-full w-full object-cover"
-                    src={`process.env.APIBASEURL/public/Products/` + image[1]}
+                    src={
+                      `https://epstudio-api.onrender.com/public/Products/` +
+                      image[1]
+                    }
                     alt={product.name}
                   />
                 </td>

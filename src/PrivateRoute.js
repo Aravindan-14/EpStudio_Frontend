@@ -23,7 +23,7 @@ const PrivateRoutes = () => {
 
     try {
       const res = await axios.post(
-        "process.env.APIBASEURL/register/validtoken",
+        "https://epstudio-api.onrender.com/register/validtoken",
         {},
         {
           headers: {

@@ -4,7 +4,7 @@ import axios from "axios";
 import { DataContext } from "../Contexts/DataContext";
 import io from "socket.io-client";
 
-const SOCKET_SERVER_URL = "process.env.APIBASEURL";
+const SOCKET_SERVER_URL = "https://epstudio-api.onrender.com";
 function Message() {
   const { users, isAuth, setIsAuth, open, setOpen } = useContext(DataContext);
 
@@ -15,7 +15,7 @@ function Message() {
     const fetchSenderChatId = async () => {
       try {
         const res = await axios.post(
-          "process.env.APIBASEURL/chat/getAllChatId",
+          "https://epstudio-api.onrender.com/chat/getAllChatId",
           {
             id: users.id,
           }
@@ -35,7 +35,7 @@ function Message() {
     const fetchMyMessage = async () => {
       try {
         const res = await axios.post(
-          "process.env.APIBASEURL/chat/getMyMessage",
+          "https://epstudio-api.onrender.com/chat/getMyMessage",
           { chat_ID: currentUser.chat_ID }
         );
         setMessages(res.data.data);
