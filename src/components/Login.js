@@ -64,6 +64,13 @@ const Login = () => {
           </button>
         </form>
         {message && <p className="mt-4 text-center text-red-500">{message}</p>}
+
+          <p className="text-center mt-10">
+          Don't have an account?{" "}
+          <Link to="/signUp">
+            <span className="text-blue-500 cursor-pointer">Register here</span>
+          </Link>
+        </p>
       </div>
     </div>
   );
