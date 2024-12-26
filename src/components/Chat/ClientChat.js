@@ -190,7 +190,7 @@ export default function Example() {
                         <div
                           // scrollbar-custom
                           id="chat-area"
-                          className={`h-[420px] w-full mb-1 flex flex-col overflow-auto scrollbar-none p-2 ${
+                          className={`h-[468px] w-full mb-1 flex flex-col overflow-auto scrollbar-none p-2 ${
                             true ? "items-end" : "items-start"
                           } `}
                         >
