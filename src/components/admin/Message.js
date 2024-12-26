@@ -4,7 +4,7 @@ import axios from "axios";
 import { DataContext } from "../Contexts/DataContext";
 import io from "socket.io-client";
 
-const SOCKET_SERVER_URL = "http://process.env.APIBASEURL";
+const SOCKET_SERVER_URL = "process.env.APIBASEURL";
 function Message() {
   const { users, isAuth, setIsAuth, open, setOpen } = useContext(DataContext);
 
@@ -15,7 +15,7 @@ function Message() {
     const fetchSenderChatId = async () => {
       try {
         const res = await axios.post(
-          "http://process.env.APIBASEURL/chat/getAllChatId",
+          "process.env.APIBASEURL/chat/getAllChatId",
           {
             id: users.id,
           }
@@ -35,7 +35,7 @@ function Message() {
     const fetchMyMessage = async () => {
       try {
         const res = await axios.post(
-          "http://process.env.APIBASEURL/chat/getMyMessage",
+          "process.env.APIBASEURL/chat/getMyMessage",
           { chat_ID: currentUser.chat_ID }
         );
         setMessages(res.data.data);

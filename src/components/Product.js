@@ -9,7 +9,7 @@ function Product() {
   const [notFound, setNotFound] = useState(false);
   useEffect(() => {
     axios
-      .get("http://process.env.APIBASEURL/product/allProducts")
+      .get("process.env.APIBASEURL/product/allProducts")
       .then((res) => setProducts(res.data))
       .catch((err) => {
         console.log(err);
@@ -64,10 +64,7 @@ function Product() {
                 <div className="border bg-white hover:scale-105 duration-500">
                   <img
                     className="hover:opacity-70 p-1 md:p-5"
-                    src={
-                      `http://process.env.APIBASEURL/public/Products/` +
-                      image[3]
-                    }
+                    src={`process.env.APIBASEURL/public/Products/` + image[3]}
                     alt=""
                   />
                   <div className="md:p-5 px-2 flex justify-center items-center flex-col">

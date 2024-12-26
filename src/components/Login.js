@@ -13,7 +13,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://process.env.APIBASEURL/login", {
+      const response = await axios.post("process.env.APIBASEURL/login", {
         email,
         password,
       });

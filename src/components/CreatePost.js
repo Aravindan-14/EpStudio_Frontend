@@ -30,7 +30,7 @@ function CreatePost() {
     try {
       setIsSubmitted(false);
       const res = await axios.post(
-        "http://process.env.APIBASEURL/product/creaditProduct",
+        "process.env.APIBASEURL/product/creaditProduct",
         formData
       );
       console.log(res.data);
