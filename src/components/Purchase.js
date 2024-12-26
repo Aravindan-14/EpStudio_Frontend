@@ -120,7 +120,7 @@ function Purchase() {
     formData.append("User_ID", users.id);
 
     axios
-      .post("http://localhost:8081/purchase/order", formData)
+      .post("http://process.env.APIBASEURL/purchase/order", formData)
       .then((res) => {
         if (res) {
           Swal.fire({

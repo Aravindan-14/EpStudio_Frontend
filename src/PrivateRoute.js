@@ -23,7 +23,7 @@ const PrivateRoutes = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:8081/register/validtoken",
+        "http://process.env.APIBASEURL/register/validtoken",
         {},
         {
           headers: {

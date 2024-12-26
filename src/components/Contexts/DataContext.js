@@ -16,7 +16,7 @@ const DataProvider = ({ children }) => {
     }
 
     axios
-      .get("http://localhost:8081/verify", {
+      .get("http://process.env.APIBASEURL/verify", {
         headers: { "Auth-token": token },
       })
       .then((response) => {

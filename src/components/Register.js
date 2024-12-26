@@ -13,7 +13,7 @@ function Register() {
   const handelSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8081/register", data)
+      .post("http://process.env.APIBASEURL/register", data)
       .then((res) => {
         alert(res.data);
         setData("");

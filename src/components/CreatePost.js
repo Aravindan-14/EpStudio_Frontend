@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 function CreatePost() {
   var [inputs, setInputs] = useState({});
@@ -28,14 +28,13 @@ function CreatePost() {
       formData.append("Product_img", files[i]);
     }
     try {
-      setIsSubmitted(false)
+      setIsSubmitted(false);
       const res = await axios.post(
-        "http://localhost:8081/product/creaditProduct",
+        "http://process.env.APIBASEURL/product/creaditProduct",
         formData
       );
       console.log(res.data);
       alert("Product Item Added...!");
-      
     } catch (err) {
       alert(err);
     }
@@ -45,91 +44,96 @@ function CreatePost() {
     <>
       {/* <Navbar /> */}
       <div className="bg-gray-100 flex items-center justify-center h-screen">
-        {isSubmitted ?(<div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl">
-        <h2 className="text-center text-2xl font-bold mb-6 text-gray-800">
+        {isSubmitted ? (
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl">
+            <h2 className="text-center text-2xl font-bold mb-6 text-gray-800">
               Create Product
             </h2>
-          <form
-            onSubmit={handleSubmit}
-            className="md:grid md:grid-cols-2 md:gap-5 md:px-10"
-          >
-           
-
-            <div className="mb-4">
-              <label
-                for="input1"
-                className="block text-gray-700 font-medium mb-1"
-              >
-                Product Name
-              </label>
-              <input
-                onChange={handleChange}
-                type="text"
-                id="input1"
-                name="produc_Name"
-                className="outline-none  w-full px-4 py-2 border rounded-lg"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label
-                for="input2"
-                className="block text-gray-700 font-medium mb-1"
-              >
-                Product Price
-              </label>
-              <input
-                onChange={handleChange}
-                type="text"
-                id="input2"
-                name="product_Price"
-                className="outline-none  w-full px-4 py-2 border rounded-lg "
-              />
-            </div>
-
-            <div className="mb-4">
-              <label
-                for="input3"
-                className="block text-gray-700 font-medium mb-1"
-              >
-                Description
-              </label>
-              <input
-                onChange={handleChange}
-                type="text"
-                id="input3"
-                name="description"
-                className="outline-none  w-full px-4 py-2 border rounded-lg "
-              />
-            </div>
-
-            <div className="mb-6">
-              <label
-                for="fileInput"
-                className="block text-gray-700 font-medium mb-1"
-              >
-                Upload File{" "}
-              </label>
-              <input
-                multiple
-                onChange={handelFile}
-                type="file"
-                id="fileInput"
-                name="upload_File"
-                className="outline-none  w-full px-4 py-2 border rounded-lg "
-              />
-            </div>
-            <button
-              type="submit"
-              className="col-span-2 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 "
+            <form
+              onSubmit={handleSubmit}
+              className="md:grid md:grid-cols-2 md:gap-5 md:px-10"
             >
-              Create Card
-            </button>
-          </form>
-        </div>):(<div>
-          <FontAwesomeIcon icon={faCheckCircle} style={{ color: 'green', marginRight: '10px' }} />
-          Product Created successfully!
-        </div>)}
+              <div className="mb-4">
+                <label
+                  for="input1"
+                  className="block text-gray-700 font-medium mb-1"
+                >
+                  Product Name
+                </label>
+                <input
+                  onChange={handleChange}
+                  type="text"
+                  id="input1"
+                  name="produc_Name"
+                  className="outline-none  w-full px-4 py-2 border rounded-lg"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label
+                  for="input2"
+                  className="block text-gray-700 font-medium mb-1"
+                >
+                  Product Price
+                </label>
+                <input
+                  onChange={handleChange}
+                  type="text"
+                  id="input2"
+                  name="product_Price"
+                  className="outline-none  w-full px-4 py-2 border rounded-lg "
+                />
+              </div>
+
+              <div className="mb-4">
+                <label
+                  for="input3"
+                  className="block text-gray-700 font-medium mb-1"
+                >
+                  Description
+                </label>
+                <input
+                  onChange={handleChange}
+                  type="text"
+                  id="input3"
+                  name="description"
+                  className="outline-none  w-full px-4 py-2 border rounded-lg "
+                />
+              </div>
+
+              <div className="mb-6">
+                <label
+                  for="fileInput"
+                  className="block text-gray-700 font-medium mb-1"
+                >
+                  Upload File{" "}
+                </label>
+                <input
+                  multiple
+                  onChange={handelFile}
+                  type="file"
+                  id="fileInput"
+                  name="upload_File"
+                  className="outline-none  w-full px-4 py-2 border rounded-lg "
+                />
+              </div>
+              <button
+                type="submit"
+                className="col-span-2 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 "
+              >
+                Create Card
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div>
+            <FontAwesomeIcon
+              icon={faCheckCircle}
+              style={{ color: "green", marginRight: "10px" }}
+            />
+            Product Created successfully!
+          </div>
+        )}
       </div>
       {/* <Footer /> */}
     </>

@@ -11,7 +11,7 @@ import { DataContext } from "../Contexts/DataContext";
 import axios from "axios";
 import io from "socket.io-client";
 import profile from "../../Assets/commenAssets/EPLogo.png";
-const SOCKET_SERVER_URL = "http://localhost:8081";
+const SOCKET_SERVER_URL = "http://process.env.APIBASEURL";
 
 export default function Example() {
   const { users, isAuth, setIsAuth, open, setOpen } = useContext(DataContext);
@@ -23,7 +23,7 @@ export default function Example() {
     const fetchSenderChatId = async () => {
       try {
         const res = await axios.post(
-          "http://localhost:8081/chat/getSenderChatId",
+          "http://process.env.APIBASEURL/chat/getSenderChatId",
           {
             id: users.id,
           }
@@ -41,7 +41,7 @@ export default function Example() {
     const fetchMyMessage = async () => {
       try {
         const res = await axios.post(
-          "http://localhost:8081/chat/getMyMessage",
+          "http://process.env.APIBASEURL/chat/getMyMessage",
           { chat_ID: senderChatId.chat_ID }
         );
         setMessages(res.data.data);
@@ -132,7 +132,7 @@ export default function Example() {
     };
 
     const res = await axios.post(
-      "http://localhost:8081/chat/CreateChatID",
+      "http://process.env.APIBASEURL/chat/CreateChatID",
       Data
     );
   };

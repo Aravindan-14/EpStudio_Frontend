@@ -34,7 +34,7 @@ function Description() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/product/${id}`)
+      .get(`http://process.env.APIBASEURL/product/${id}`)
       .then((res) => {
         setData(res.data);
       })
@@ -81,28 +81,36 @@ function Description() {
               <SwiperSlide>
                 <img
                   className="object-center lg:h-[500px] md:h[300px]"
-                  src={`http://localhost:8081/public/Products/` + image[0]}
+                  src={
+                    `http://process.env.APIBASEURL/public/Products/` + image[0]
+                  }
                   alt=""
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
                   className="object-center lg:h-[500px] md:h[300px]"
-                  src={`http://localhost:8081/public/Products/` + image[1]}
+                  src={
+                    `http://process.env.APIBASEURL/public/Products/` + image[1]
+                  }
                   alt=""
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
                   className="object-center lg:h-[500px] md:h[300px]"
-                  src={`http://localhost:8081/public/Products/` + image[2]}
+                  src={
+                    `http://process.env.APIBASEURL/public/Products/` + image[2]
+                  }
                   alt=""
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
                   className="object-center lg:h-[500px] md:h[300px]"
-                  src={`http://localhost:8081/public/Products/` + image[3]}
+                  src={
+                    `http://process.env.APIBASEURL/public/Products/` + image[3]
+                  }
                   alt=""
                 />
               </SwiperSlide>

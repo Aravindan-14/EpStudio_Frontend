@@ -136,7 +136,7 @@ function OrderList({ show }) {
   useEffect(() => {
     const getUserOrders = async () => {
       const res = await axios.get(
-        "http://localhost:8081/purchase/getUserOrders"
+        "http://process.env.APIBASEURL/purchase/getUserOrders"
       );
       console.log(res.data);
       if (res.status == 200) {
@@ -235,7 +235,7 @@ function OrderList({ show }) {
                         <td className="py-3 px-6  whitespace-nowrap flex justify-center">
                           <img
                             className="h-10 w-10 object-cover"
-                            src={`http://localhost:8081/public/Customer/${item.image}`}
+                            src={`http://process.env.APIBASEURL/public/Customer/${item.image}`}
                             alt=""
                             onClick={() => {
                               setimg(item.image);
@@ -299,7 +299,7 @@ function OrderList({ show }) {
               onClick={closeFullscreen}
             >
               <img
-                src={`http://localhost:8081/public/Customer/${img}`}
+                src={`http://process.env.APIBASEURL/public/Customer/${img}`}
                 alt={img}
                 className="max-w-[90%] max-h-[90%]"
               />
