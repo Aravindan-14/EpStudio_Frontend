@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -64,6 +64,13 @@ const Login = () => {
           </button>
         </form>
         {message && <p className="mt-4 text-center text-red-500">{message}</p>}
+
+        <p className="text-center mt-10">
+          Don't have an account?{" "}
+          <Link to="/signUp">
+            <span className="text-blue-500 cursor-pointer">Register here</span>
+          </Link>
+        </p>
       </div>
     </div>
   );

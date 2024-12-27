@@ -31,7 +31,7 @@ function Register() {
         <form onSubmit={handelSubmit}>
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-gray-700 text-sm  mb-2"
               htmlFor="username"
             >
               Username
@@ -49,7 +49,7 @@ function Register() {
           </div>
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-gray-700 text-sm  mb-2"
               htmlFor="email"
             >
               Email
@@ -67,7 +67,7 @@ function Register() {
           </div>
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-gray-700 text-sm  mb-2"
               htmlFor="password"
             >
               Password
@@ -85,7 +85,7 @@ function Register() {
           </div>
           <div className="mb-6">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-gray-700 text-sm  mb-2"
               htmlFor="confirm-password"
             >
               Confirm Password
@@ -103,14 +103,14 @@ function Register() {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
               Sign Up
             </button>
             <Link to="/login">
               <a
-                className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+                className="inline-block align-baseline  text-sm text-blue-500 hover:text-blue-800"
                 href="#"
               >
                 Already have an account?

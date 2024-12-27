@@ -39,69 +39,7 @@ function Purchase() {
   }, []);
 
   const handleImageUpload = (e) => {
-    if (!isCvReady) {
-      setOutput("OpenCV.js is still loading. Please wait.");
-      return;
-    }
-
-    let file = e.target.files[0];
-    if (!file) return;
-
-    let img = new Image();
-    img.src = URL.createObjectURL(file);
-    img.onload = function () {
-      let canvas = document.createElement("canvas");
-      let ctx = canvas.getContext("2d");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-
-      let src = window.cv.imread(canvas);
-      let gray = new window.cv.Mat();
-      window.cv.cvtColor(src, gray, window.cv.COLOR_RGBA2GRAY);
-
-      let laplacian = new window.cv.Mat();
-      window.cv.Laplacian(gray, laplacian, window.cv.CV_64F);
-
-      let mean = new window.cv.Mat();
-      let stddev = new window.cv.Mat();
-      window.cv.meanStdDev(laplacian, mean, stddev);
-
-      let variance = stddev.doubleAt(0, 0) ** 2;
-      let threshold = 100.0;
-
-      if (variance < threshold) {
-        setOutput("The image is blurry.");
-
-        Swal.fire({
-          title: "This Picture is Blurry !",
-          text: "Please provide clear Picture",
-          icon: "warning",
-          // showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Okay",
-        });
-        // .then((result) => {
-        //   if (result.isConfirmed) {
-        //     Swal.fire({
-        //       title: "Deleted!",
-        //       text: "Your file has been deleted.",
-        //       icon: "success",
-        //     });
-        //   }
-        // });
-      } else {
-        setOutput("The image is not blurry.");
-        setFile(e.target.files[0]);
-      }
-
-      src.delete();
-      gray.delete();
-      laplacian.delete();
-      mean.delete();
-      stddev.delete();
-    };
+    setFile(e.target.files[0]);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
