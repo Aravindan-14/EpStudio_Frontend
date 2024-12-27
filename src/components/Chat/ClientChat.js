@@ -70,7 +70,7 @@ export default function Example() {
     setSocket(socketIo);
 
     // Join the room when the component mounts
-    socketIo.emit("join room", senderChatId.chat_ID);
+    senderChatId && socketIo.emit("join room", senderChatId.chat_ID);
 
     // Listen for messages
     socketIo.on("chat message", (msg) => {
@@ -135,6 +135,10 @@ export default function Example() {
       "https://epstudio-api.onrender.com/chat/CreateChatID",
       Data
     );
+
+    if (res.status == 200) {
+      location.reload();
+    }
   };
 
   return (
@@ -262,7 +266,7 @@ border-r-[0px] border-r-transparent"
                         className="bg-blue-500 hover:bg-blue-700 p-2 rounded w-20 text-white font-bold"
                         onClick={CreateChatID}
                       >
-                        Yes Do
+                        Yes
                       </button>
                       <button
                         className="bg-blue-200 hover:bg-blue-300 p-2 w-20 rounded text-white font-bold"
