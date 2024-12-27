@@ -135,10 +135,6 @@ export default function Example() {
       "https://epstudio-api.onrender.com/chat/CreateChatID",
       Data
     );
-
-    if (res.status == 200) {
-      location.reload();
-    }
   };
 
   return (
