@@ -78,7 +78,7 @@ function Description() {
               modules={[Pagination]}
               pagination={{ clickable: true }}
             >
-              <SwiperSlide>
+              <SwiperSlide className="flex justify-center">
                 <img
                   className="object-center lg:h-[500px] md:h[300px]"
                   src={
@@ -88,7 +88,7 @@ function Description() {
                   alt=""
                 />
               </SwiperSlide>
-              <SwiperSlide>
+              <SwiperSlide className="flex justify-center">
                 <img
                   className="object-center lg:h-[500px] md:h[300px]"
                   src={
@@ -98,7 +98,7 @@ function Description() {
                   alt=""
                 />
               </SwiperSlide>
-              <SwiperSlide>
+              <SwiperSlide className="flex justify-center">
                 <img
                   className="object-center lg:h-[500px] md:h[300px]"
                   src={
@@ -108,7 +108,7 @@ function Description() {
                   alt=""
                 />
               </SwiperSlide>
-              <SwiperSlide>
+              <SwiperSlide className="flex justify-center">
                 <img
                   className="object-center lg:h-[500px] md:h[300px]"
                   src={
