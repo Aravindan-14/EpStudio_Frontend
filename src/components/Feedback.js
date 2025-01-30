@@ -24,107 +24,36 @@ function Feedback() {
                     <div className='bg-slate-200 p-2 rounded-xl'>
                         <div className='flex gap-2 justify-between mb-2'>
                             <div className='flex gap-2'>
-                        <div className='h-6 w-6 rounded-full bg-black'><img src="" alt="" /> </div><h3>Aravind</h3>
+                                <div className='h-6 w-6 rounded-full bg-black'><img src="" alt="" /> </div><h3>Aravind</h3>
                             </div>
                             <div>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
                             </div>
                         </div>
                         <p className='text-sm pl-2'>i Reacly like this website </p>
                     </div>
                     <div className='bg-slate-200 p-2 rounded-xl'>
-                        <div className='flex gap-2 justify-between mb-2'>
+                        <div className='flex  justify-between mb-2'>
                             <div className='flex gap-2'>
-                        <div className='h-6 w-6 rounded-full bg-black'><img src="" alt="" /> </div><h3>Aravind</h3>
+                                <div className='h-6 w-6 rounded-full bg-black'><img src="" alt="" /> </div><h3>Aravind</h3>
                             </div>
-                            <div>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
+                            <div >
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <span
+                                        key={star}
+                                        className={`${star <= 3 ? "text-[#FFBA18]" : "text-gray-400"
+                                            }`}
+                                    >
+                                        <i class={`fa-sharp fa-${star <= 3 ? "solid":"regular"} fa-star`}></i>
+                                    </span>
+                                ))}
                             </div>
                         </div>
                         <p className='text-sm pl-2'>i Reacly like tsfsfsfsfsfsfsdfsdfsdhis website </p>
-                    </div>
-                    <div className='bg-slate-200 p-2 rounded-xl'>
-                        <div className='flex gap-2 justify-between mb-2'>
-                            <div className='flex gap-2'>
-                        <div className='h-6 w-6 rounded-full bg-black'><img src="" alt="" /> </div><h3>Aravind</h3>
-                            </div>
-                            <div>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            </div>
-                        </div>
-                        <p className='text-sm pl-2'>i Reacly like tsdfsdfdfsdfsdfsfssdfsdfsddddddddfsfsfhis website </p>
-                    </div>
-                    <div className='bg-slate-200 p-2 rounded-xl'>
-                        <div className='flex gap-2 justify-between mb-2'>
-                            <div className='flex gap-2'>
-                        <div className='h-6 w-6 rounded-full bg-black'><img src="" alt="" /> </div><h3>Aravind</h3>
-                            </div>
-                            <div>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            </div>
-                        </div>
-                        <p className='text-sm pl-2'>i Reacly likesdfsdfsfds this website </p>
-                    </div>
-                    <div className='bg-slate-200 p-2 rounded-xl'>
-                        <div className='flex gap-2 justify-between mb-2'>
-                            <div className='flex gap-2'>
-                        <div className='h-6 w-6 rounded-full bg-black'><img src="" alt="" /> </div><h3>Aravind</h3>
-                            </div>
-                            <div>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            </div>
-                        </div>
-                        <p className='text-sm pl-2'>i Reacly likesdfffffffffffffffffffff this website </p>
-                    </div>
-                    <div className='bg-slate-200 p-2 rounded-xl'>
-                        <div className='flex gap-2 justify-between mb-2'>
-                            <div className='flex gap-2'>
-                        <div className='h-6 w-6 rounded-full bg-black'><img src="" alt="" /> </div><h3>Aravind</h3>
-                            </div>
-                            <div>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            </div>
-                        </div>
-                        <p className='text-sm pl-2'>i Reacly like thdfsdfsdfsdddddddddddddddddddddddddddddis website </p>
-                    </div>
-                    <div className='bg-slate-200 p-2 rounded-xl'>
-                        <div className='flex gap-2 justify-between mb-2'>
-                            <div className='flex gap-2'>
-                        <div className='h-6 w-6 rounded-full bg-black'><img src="" alt="" /> </div><h3>Aravind</h3>
-                            </div>
-                            <div>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            </div>
-                        </div>
-                        <p className='text-sm pl-2'>i Reacly like thdsfsdfsdfsdfsdis website </p>
                     </div>
                 </div>
             </div>
