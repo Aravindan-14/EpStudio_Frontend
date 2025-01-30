@@ -3,6 +3,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
+import { mirage } from 'ldrs'
+
+mirage.register()
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,7 +14,7 @@ const Login = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   const validateForm = () => {
     let isValid = true;
     setEmailError("");
@@ -41,6 +44,7 @@ const Login = () => {
     if (!validateForm()) return;
 
     try {
+      setLoading(true)
       const response = await axios.post(
         "https://epstudio-api.onrender.com/login",
         {
@@ -51,12 +55,14 @@ const Login = () => {
       if (response.data.code === 200) {
         console.log(response.data.data.token);
         localStorage.setItem("token", JSON.stringify(response.data.data));
+        setLoading(false)
         navigate("/");
       } else {
         setMessage("Login failed! Invalid credentials.");
       }
     } catch (error) {
       setMessage("Login failed! Please try again.");
+      setLoading(false)
     }
   };
 
@@ -89,7 +95,11 @@ const Login = () => {
             type="submit"
             className="w-full bg-custom-gradient text-white py-2 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300"
           >
-            Login
+           {loading?<l-mirage
+                size="70"
+                speed="3.7"
+                color="white"
+              ></l-mirage>:"Login"}
           </button>
         </form>
         {message && <p className="mt-4 text-center text-red-500">{message}</p>}

@@ -1,6 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { mirage } from 'ldrs'
+
+mirage.register()
+
+// Default values shown
+
 
 function Register() {
   const [data, setData] = useState({
@@ -11,6 +17,7 @@ function Register() {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const validate = () => {
@@ -32,15 +39,20 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      setLoading(true)
       axios
         .post("https://epstudio-api.onrender.com/register", data)
         .then((res) => {
           alert(res.data);
           setData({ name: "", email: "", password: "", ConfirmPassword: "" });
+          setLoading(false)
           navigate("/login");
+
         })
         .catch((err) => {
           alert("Registration failed! Please try again.");
+        }).finally(() => {
+          setLoading(false);
         });
     }
   };
@@ -91,7 +103,7 @@ function Register() {
               htmlFor="password"
             >
               Password
-            </label>           
+            </label>
             <input
               id="password"
               type="password"
@@ -128,7 +140,13 @@ function Register() {
               className="bg-custom-gradient hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
-              Sign Up
+              {loading?<l-mirage
+                size="60"
+                speed="3.5"
+                color="white"
+              ></l-mirage>:"Sign Up"}
+              
+               
             </button>
             <Link to="/login" className="text-blue-500 hover:text-blue-800 text-sm">
               Already have an account?

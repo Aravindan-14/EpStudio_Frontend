@@ -101,7 +101,8 @@ export default function Example() {
 
   // Send message to the server
   const sendMessage = (e) => {
-    e.preventDefault();
+    e?.preventDefault();
+
     if (message.trim() && socket) {
       const messgedata = {
         sender_ID: users.id,
@@ -135,6 +136,12 @@ export default function Example() {
       "https://epstudio-api.onrender.com/chat/CreateChatID",
       Data
     );
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      sendMessage()
+    }
   };
 
   return (
@@ -186,7 +193,7 @@ export default function Example() {
                       </DialogTitle>
                     </div>
                     <div className="relative mt-2 h-full flex-1 px-4 sm:px-6">
-                      <div className="w-full h-full bg-gradient-to-r from-violet-300 to-fuchsia-300">
+                      <div className="w-full h-full bg-gradient-to-r from-violet-200 to-fuchsia-200">
                         <div
                           // scrollbar-custom
                           id="chat-area"
@@ -204,24 +211,24 @@ export default function Example() {
                                 }`}
                               >
                                 {msg.sender_ID == users.id ? (
-                                  <div className="relative rounded-l-xl rounded-br-xl text-sm bg-gradient-to-r from-violet-600 to-fuchsia-500 w-fit h-fit mr-2 text-white p-2 mt-1 text-start font-semibold">
+                                  <div className="relative rounded-l-xl rounded-br-xl text-sm bg-gradient-to-r from-violet-400 to-fuchsia-400 w-fit h-fit mr-2 text-white p-2 mt-1 text-start font-semibold">
                                     <p>{msg.message}</p>
                                     <p></p>
                                     <div
                                       class="absolute top-0 -right-1 w-0 h-0 
       border-t-[0px] border-t-transparent
-      border-l-[10px] border-l-fuchsia-500
+      border-l-[10px] border-l-fuchsia-400
       border-b-[10px] border-b-transparent"
                                     ></div>
                                   </div>
                                 ) : (
-                                  <div className="my-1 relative rounded-r-xl rounded-bl-xl text-sm bg-violet-600 text-white w-fit h-fit ml-2 p-2 font-semibold">
+                                  <div className="my-1 relative rounded-r-xl rounded-bl-xl text-sm bg-violet-400 text-white w-fit h-fit ml-2 p-2 font-semibold">
                                     <p>{msg.message}</p>
                                     <p></p>
                                     <div
                                       className="absolute top-0 -left-1 w-0 h-0 
 border-l-[10px] border-l-transparent
-border-t-[12px] border-t-violet-600
+border-t-[12px] border-t-violet-400
 border-r-[0px] border-r-transparent"
                                     ></div>
                                   </div>
@@ -230,10 +237,13 @@ border-r-[0px] border-r-transparent"
                             );
                           })}
                         </div>
-                        <div className="flex justify-between items-center w-full p-3 relative">
+                       
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center w-full p-3 bottom-14 relative bg-white">
                           <div
                             onClick={scrollDown}
-                            className="absolute -top-3 left-0 flex justify-center w-full text-white/50 "
+                            className="absolute -top-5 left-0 flex justify-center w-full text-white/50 "
                           >
                             <i class="fa-solid fa-angles-down cursor-pointer"></i>
                           </div>
@@ -242,7 +252,8 @@ border-r-[0px] border-r-transparent"
                             type="text"
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
-                            className="w-full h-10 mr-3 pl-2  outline-none border-b border-black/50 "
+                            onKeyDown={handleKeyDown}
+                            className="w-full h-10 mr-3 pl-5  outline-none bg-slate-100 ml-3 border-black/50 "
                           />
                           <button
                             onClick={sendMessage}
@@ -251,8 +262,6 @@ border-r-[0px] border-r-transparent"
                             <i class="fa-regular fa-paper-plane"></i>
                           </button>
                         </div>
-                      </div>
-                    </div>
                   </div>
                 ) : (
                   <div className="w-full h-full flex flex-col justify-center items-center">

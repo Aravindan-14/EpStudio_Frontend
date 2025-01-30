@@ -2,6 +2,11 @@ import React, { useEffect, useState, useContext } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import axios from "axios";
 import { DataContext } from "./components/Contexts/DataContext";
+import { jellyTriangle } from 'ldrs'
+
+jellyTriangle.register()
+
+// Default values shown
 
 const PrivateRoutes = () => {
   const [loading, setLoading] = useState(true);
@@ -48,7 +53,14 @@ const PrivateRoutes = () => {
   }
 
   if (loading) {
-    return <div>Loading...</div>; // Optional: add a loading spinner or message
+    return <div className="h-screen w-screen flex justify-center items-center">
+      <l-jelly-triangle
+        size="90"
+        speed="1.75"
+        // color="black"
+      ></l-jelly-triangle>
+
+    </div>; // Optional: add a loading spinner or message
   }
 
   return isAuth ? <Outlet /> : <Navigate to={"/login"} />;
