@@ -46,7 +46,7 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-custom-gradient">
       <div className="bg-white p-8 rounded shadow-md w-96">
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
         <form onSubmit={handleSubmit}>
@@ -91,7 +91,7 @@ function Register() {
               htmlFor="password"
             >
               Password
-            </label>
+            </label>           
             <input
               id="password"
               type="password"
@@ -125,7 +125,7 @@ function Register() {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-custom-gradient hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
               Sign Up

@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 function OrderList({ show }) {
   const { users, isAuth, setIsAuth } = useContext(DataContext);
   const [order, setOrder] = useState([]);
+  console.log(order);
+  
 
   // States for filter, sorting, and pagination
   const [filter, setFilter] = useState("");
@@ -146,6 +148,8 @@ function OrderList({ show }) {
 
     getUserOrders();
   }, []);
+
+
 
   const filteredOrder = order.filter((item) => {
     return item.User_ID == users.id;

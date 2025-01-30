@@ -185,7 +185,7 @@ export default function Example() {
                         <hr className="w-full h-0 bg-slate-100" />
                       </DialogTitle>
                     </div>
-                    <div className="relative mt-2 flex-1 px-4 sm:px-6">
+                    <div className="relative mt-2 h-full flex-1 px-4 sm:px-6">
                       <div className="w-full h-full bg-gradient-to-r from-violet-300 to-fuchsia-300">
                         <div
                           // scrollbar-custom
