@@ -1,12 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { mirage } from 'ldrs'
-
-mirage.register()
-
-// Default values shown
-
+import loginBanner from "../Assets/commenAssets/loginbanner.jpg"
 
 function Register() {
   const [data, setData] = useState({
@@ -20,6 +15,7 @@ function Register() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Validation function
   const validate = () => {
     const newErrors = {};
     if (!data.name) newErrors.name = "Username is required.";
@@ -36,123 +32,122 @@ function Register() {
     return Object.keys(newErrors).length === 0;
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      setLoading(true)
+      setLoading(true);
       axios
-        .post("https://epstudio-api.onrender.com/register", data)
+        .post("https://epstudio-api.onrender.com/registeyr", data)
         .then((res) => {
           alert(res.data);
           setData({ name: "", email: "", password: "", ConfirmPassword: "" });
-          setLoading(false)
+          setLoading(false);
           navigate("/login");
-
         })
         .catch((err) => {
           alert("Registration failed! Please try again.");
-        }).finally(() => {
+        })
+        .finally(() => {
           setLoading(false);
         });
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-custom-gradient">
-      <div className="bg-white p-8 rounded shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm mb-2"
-              htmlFor="username"
-            >
-              Username
-            </label>
-            <input
-              id="username"
-              type="text"
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.name ? "border-red-500" : "focus:border-blue-300"}`}
-              placeholder="Username"
-              value={data.name}
-              onChange={(e) => {
-                setData({ ...data, name: e.target.value });
-              }}
-            />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm mb-2" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.email ? "border-red-500" : "focus:border-blue-300"}`}
-              placeholder="Email"
-              value={data.email}
-              onChange={(e) => {
-                setData({ ...data, email: e.target.value });
-              }}
-            />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm mb-2"
-              htmlFor="password"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.password ? "border-red-500" : "focus:border-blue-300"}`}
-              placeholder="Password"
-              value={data.password}
-              onChange={(e) => {
-                setData({ ...data, password: e.target.value });
-              }}
-            />
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
-          </div>
-          <div className="mb-6">
-            <label
-              className="block text-gray-700 text-sm mb-2"
-              htmlFor="confirm-password"
-            >
-              Confirm Password
-            </label>
-            <input
-              id="confirm-password"
-              type="password"
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.ConfirmPassword ? "border-red-500" : "focus:border-blue-300"}`}
-              placeholder="Confirm Password"
-              value={data.ConfirmPassword}
-              onChange={(e) => {
-                setData({ ...data, ConfirmPassword: e.target.value });
-              }}
-            />
-            {errors.ConfirmPassword && <p className="text-red-500 text-sm mt-1">{errors.ConfirmPassword}</p>}
-          </div>
-          <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-custom-gradient flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-none md:max-w-6xl flex flex-col md:flex-row items-center gap-8">
+        <div className="hidden md:block w-1/2">
+          <img
+            src={loginBanner}
+            alt="Illustration of a person in a green hoodie working at a desk with a laptop, plants, and a butterfly decoration"
+            className="w-full h-auto object-contain"
+          />
+        </div>
+        <div className="w-full md:w-1/2">
+         
+          <h1 className="font-roboto text-2xl font-bold text-gray-800 mb-2">
+            Create Your Account
+          </h1>
+          <p className="text-gray-500 mb-6 font-roboto">
+            Join Ep Studio Today
+          </p>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <input
+                type="text"
+                placeholder="Username"
+                className={`w-full px-4 py-3 rounded-lg border ${errors.name ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-blue-500 font-roboto`}
+                value={data.name}
+                onChange={(e) => setData({ ...data, name: e.target.value })}
+              />
+              {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+            </div>
+            <div>
+              <input
+                type="email"
+                placeholder="Email Address"
+                className={`w-full px-4 py-3 rounded-lg border ${errors.email ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-blue-500 font-roboto`}
+                value={data.email}
+                onChange={(e) => setData({ ...data, email: e.target.value })}
+              />
+              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+            </div>
+            <div>
+              <input
+                type="password"
+                placeholder="Password"
+                className={`w-full px-4 py-3 rounded-lg border ${errors.password ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-blue-500 font-roboto`}
+                value={data.password}
+                onChange={(e) => setData({ ...data, password: e.target.value })}
+              />
+              {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+            </div>
+            <div>
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                className={`w-full px-4 py-3 rounded-lg border ${errors.ConfirmPassword ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-blue-500 font-roboto`}
+                value={data.ConfirmPassword}
+                onChange={(e) => setData({ ...data, ConfirmPassword: e.target.value })}
+              />
+              {errors.ConfirmPassword && <p className="text-red-500 text-sm mt-1">{errors.ConfirmPassword}</p>}
+            </div>
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                className="form-checkbox text-blue-500"
+                name="terms"
+              />
+              <span className="ml-2 text-sm text-gray-600 font-roboto">
+                I agree to the Terms and Privacy Policy
+              </span>
+            </div>
             <button
-              className="bg-custom-gradient hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
+              className="w-full bg-custom-gradient text-white py-3 rounded-lg hover:bg-blue-600 transition-colors font-roboto"
+              disabled={loading}
             >
-              {loading?<l-mirage
-                size="60"
-                speed="3.5"
-                color="white"
-              ></l-mirage>:"Sign Up"}
-              
-               
+              {loading ? (
+                <l-mirage size="90" speed="3.7" color="white"></l-mirage>
+              ) : (
+                "Sign Up"
+              )}
             </button>
-            <Link to="/login" className="text-blue-500 hover:text-blue-800 text-sm">
-              Already have an account?
-            </Link>
-          </div>
-        </form>
+            <div className="text-center">
+              <span className="text-sm text-gray-600 font-roboto">
+                Already have an account?{" "}
+              </span>
+              <Link
+                to="/login"
+                className="text-sm text-blue-500 hover:underline font-roboto"
+              >
+                Sign in
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

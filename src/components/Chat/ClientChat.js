@@ -19,6 +19,7 @@ export default function Example() {
   const [socket, setSocket] = useState(null);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [chatOpen, setChatOpen] = useState(false);
   useEffect(() => {
     const fetchSenderChatId = async () => {
       try {
@@ -35,7 +36,7 @@ export default function Example() {
     };
 
     fetchSenderChatId();
-  }, [users.id]);
+  }, [users.id,chatOpen]);
 
   useEffect(() => {
     const fetchMyMessage = async () => {
@@ -136,6 +137,10 @@ export default function Example() {
       "https://epstudio-api.onrender.com/chat/CreateChatID",
       Data
     );
+
+    if(res.status===200){
+      setChatOpen(true)
+    }
   };
 
   const handleKeyDown = (event) => {
@@ -172,7 +177,7 @@ export default function Example() {
                 </div>
               </TransitionChild>
               <div className="flex h-full flex-col overflow-y-scroll bg-white py-3 shadow-xl">
-                {senderChatId ? (
+                {senderChatId || chatOpen ? (
                   <div>
                     <div className="px-4 sm:px-6">
                       <DialogTitle className="text-base font-semibold leading-6 text-gray-900">
