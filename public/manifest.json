@@ -1,19 +1,14 @@
 {
   "short_name": "EP Studio",
-  "name": "Eyam Poosu Studio",
+  "name": "Eyam Poosu - Professional Photo Editing & Framing",
   "icons": [
     {
-      "src": "logo.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo.ico",
+      "src": "logo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo.ico",
+      "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
