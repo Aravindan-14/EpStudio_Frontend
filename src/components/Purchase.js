@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { DataContext } from "./Contexts/DataContext";
 import { mirage } from 'ldrs'
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 mirage.register()
 function Purchase() {
   var [inputs, setInputs] = useState({});
@@ -75,7 +76,15 @@ function Purchase() {
         }
       })
       .catch((err) => {
-        alert("Something went wrong");
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
       }).finally(()=>{
         setLoading(false)
       })

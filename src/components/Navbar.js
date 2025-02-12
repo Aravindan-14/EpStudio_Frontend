@@ -54,7 +54,9 @@ function Navbar() {
                 <li className="font-light hover:text-blue-500">
                   <a href="#Collection"> Collection</a>
                 </li>
-                <li className="font-light hover:text-blue-500">About Us</li>
+                <Link to="/ablutUs">
+                  <li className="font-light hover:text-blue-500">About Us</li>
+                </Link>
                 <li className="font-light hover:text-blue-500">Contact</li>
                 {users.role == "Admin" ? (
                   <Link to="/admin">

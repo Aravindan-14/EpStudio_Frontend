@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import loginBanner from "../Assets/commenAssets/loginbanner.jpg"
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Register() {
   const [data, setData] = useState({
     name: "",
@@ -40,13 +41,29 @@ function Register() {
       axios
         .post("https://epstudio-api.onrender.com/registeyr", data)
         .then((res) => {
-          alert(res.data);
+          toast.success("Account Created..", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "light",
+          });
           setData({ name: "", email: "", password: "", ConfirmPassword: "" });
           setLoading(false);
           navigate("/login");
         })
         .catch((err) => {
-          alert("Registration failed! Please try again.");
+          toast.error("Registration failed! try again.", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "light",
+          });
         })
         .finally(() => {
           setLoading(false);

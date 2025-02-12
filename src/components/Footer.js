@@ -25,7 +25,7 @@ function Footer() {
             <i class="fa-brands fa-x-twitter"></i>
           </div>
         </div>
-        <small>&copy; 2024 Derss. All rights reserved.</small>
+        <small>&copy; 2024 Eyam poosu Studio. All rights reserved.</small>
       </div>
     </div>
   );

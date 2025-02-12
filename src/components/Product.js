@@ -66,7 +66,7 @@ function Product() {
                     className="hover:opacity-70 p-1 md:p-5"
                     src={
                       `https://epstudio-api.onrender.com/public/Products/` +
-                      image[3]
+                      image[1]
                     }
                     alt=""
                   />

@@ -4,7 +4,8 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function CreatePost() {
   var [inputs, setInputs] = useState({});
   var [files, setFiles] = useState([]);
@@ -34,9 +35,25 @@ function CreatePost() {
         formData
       );
       console.log(res.data);
-      alert("Product Item Added...!");
+      toast.success("Product Item Added...!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
     } catch (err) {
-      alert(err);
+      toast.error(err.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
     }
   };
 

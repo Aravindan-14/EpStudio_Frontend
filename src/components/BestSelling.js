@@ -8,7 +8,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 function BestSelling() {
   return (
-    <div className="py-10 container mx-auto px-5">
+    <div className="py-10 bg-slate-200 container mx-auto px-5">
       <h1 className="text-center text-[50px]  font-bold">Best Selling</h1>
       <p className="text-center pt-5 pb-10">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus fugiat
@@ -44,14 +44,14 @@ function BestSelling() {
         }}
         modules={[Autoplay]}
       >
-        <SwiperSlide className="bg-white hover:shadow-xl">
-          <img className="" src="p6.jpg" alt="" />
+        <SwiperSlide className="bg-white my-10  hover:shadow-xl hover:shadow-blue-700/30">
+          <img className="" src="p1.png" alt="" />
         </SwiperSlide>
-        <SwiperSlide className="bg-white hover:shadow-xl">
-          <img className="" src="p2.jpg" alt="" />
+        <SwiperSlide className="bg-white my-10  hover:shadow-xl hover:shadow-blue-700/30">
+          <img className="" src="p2.png" alt="" />
         </SwiperSlide>
-        <SwiperSlide className="bg-white hover:shadow-xl">
-          <img className="" src="p3.jpg" alt="" />
+        <SwiperSlide className="bg-white my-10  hover:shadow-xl hover:shadow-blue-700/30">
+          <img className="" src="p3.png" alt="" />
         </SwiperSlide>
       </Swiper>
     </div>

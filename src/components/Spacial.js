@@ -38,13 +38,13 @@ function Spacial() {
       }}
     >
       <SwiperSlide className="bg-white hover:shadow-xl">
-        <img className="" src="p6.jpg" alt="" />
+        <img className="" src="p3.png" alt="" />
       </SwiperSlide>
       <SwiperSlide className="bg-white hover:shadow-xl">
-        <img className="" src="p2.jpg" alt="" />
+        <img className="" src="p2.png" alt="" />
       </SwiperSlide>
       <SwiperSlide className="bg-white hover:shadow-xl">
-        <img className="" src="p3.jpg" alt="" />
+        <img className="" src="p1.png" alt="" />
       </SwiperSlide>
     </Swiper>
   </div>
