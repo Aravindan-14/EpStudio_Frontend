@@ -39,7 +39,7 @@ function Register() {
     if (validate()) {
       setLoading(true);
       axios
-        .post("https://epstudio-api.onrender.com/registeyr", data)
+        .post("https://epstudio-api.onrender.com/register", data)
         .then((res) => {
           toast.success("Account Created..", {
             position: "top-right",
