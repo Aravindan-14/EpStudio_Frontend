@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import { DataContext } from "./Contexts/DataContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { baseURL } from "../Utils/ServerUrl";
 function OrderList({ show }) {
   const { users, isAuth, setIsAuth } = useContext(DataContext);
   const [order, setOrder] = useState([]);
@@ -138,7 +139,7 @@ function OrderList({ show }) {
   useEffect(() => {
     const getUserOrders = async () => {
       const res = await axios.get(
-        "https://epstudio-api.onrender.com/purchase/getUserOrders"
+        `${baseURL}/purchase/getUserOrders`
       );
       console.log(res.data);
       if (res.status == 200) {
@@ -239,7 +240,7 @@ function OrderList({ show }) {
                         <td className="py-3 px-6  whitespace-nowrap flex justify-center">
                           <img
                             className="h-10 w-10 object-cover"
-                            src={`https://epstudio-api.onrender.com/public/Customer/${item.image}`}
+                            src={`${baseURL}/public/Customer/${item.image}`}
                             alt=""
                             onClick={() => {
                               setimg(item.image);
@@ -303,7 +304,7 @@ function OrderList({ show }) {
               onClick={closeFullscreen}
             >
               <img
-                src={`https://epstudio-api.onrender.com/public/Customer/${img}`}
+                src={`${baseURL}/public/Customer/${img}`}
                 alt={img}
                 className="max-w-[90%] max-h-[90%]"
               />

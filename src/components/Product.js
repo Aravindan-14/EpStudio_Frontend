@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Lottie from "lottie-react";
 import animationData from "../Assets/commenAssets/Animation - 1724343780432.json";
+import { baseURL } from "../Utils/ServerUrl";
 function Product() {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [notFound, setNotFound] = useState(false);
   useEffect(() => {
     axios
-      .get("https://epstudio-api.onrender.com/product/allProducts")
+      .get(`${baseURL}/product/allProducts`)
       .then((res) => setProducts(res.data))
       .catch((err) => {
         console.log(err);
@@ -65,7 +66,7 @@ function Product() {
                   <img
                     className="hover:opacity-70 p-1 md:p-5"
                     src={
-                      `https://epstudio-api.onrender.com/public/Products/` +
+                      `${baseURL}/public/Products/` +
                       image[1]
                     }
                     alt=""

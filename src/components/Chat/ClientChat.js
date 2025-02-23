@@ -11,7 +11,8 @@ import { DataContext } from "../Contexts/DataContext";
 import axios from "axios";
 import io from "socket.io-client";
 import profile from "../../Assets/commenAssets/EPLogo.png";
-const SOCKET_SERVER_URL = "https://epstudio-api.onrender.com";
+import { baseURL } from "../../Utils/ServerUrl";
+const SOCKET_SERVER_URL = `${baseURL}`;
 
 export default function Example() {
   const { users, isAuth, setIsAuth, open, setOpen } = useContext(DataContext);
@@ -24,7 +25,7 @@ export default function Example() {
     const fetchSenderChatId = async () => {
       try {
         const res = await axios.post(
-          "https://epstudio-api.onrender.com/chat/getSenderChatId",
+          `${baseURL}/chat/getSenderChatId`,
           {
             id: users.id,
           }
@@ -42,7 +43,7 @@ export default function Example() {
     const fetchMyMessage = async () => {
       try {
         const res = await axios.post(
-          "https://epstudio-api.onrender.com/chat/getMyMessage",
+          `${baseURL}/chat/getMyMessage`,
           { chat_ID: senderChatId.chat_ID }
         );
         setMessages(res.data.data);
@@ -134,7 +135,7 @@ export default function Example() {
     };
 
     const res = await axios.post(
-      "https://epstudio-api.onrender.com/chat/CreateChatID",
+      `${baseURL}/chat/CreateChatID`,
       Data
     );
 

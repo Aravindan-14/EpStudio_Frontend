@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import loginBanner from "../Assets/commenAssets/loginbanner.jpg"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { baseURL } from "../Utils/ServerUrl";
 function Register() {
   const [data, setData] = useState({
     name: "",
@@ -39,7 +40,7 @@ function Register() {
     if (validate()) {
       setLoading(true);
       axios
-        .post("https://epstudio-api.onrender.com/registeyr", data)
+        .post(`${baseURL}/registeyr`, data)
         .then((res) => {
           toast.success("Account Created..", {
             position: "top-right",
@@ -82,7 +83,7 @@ function Register() {
           />
         </div>
         <div className="w-full md:w-1/2">
-         
+
           <h1 className="font-roboto text-2xl font-bold text-gray-800 mb-2">
             Create Your Account
           </h1>

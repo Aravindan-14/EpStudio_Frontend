@@ -49,10 +49,10 @@ function Navbar() {
             <div className="flex justify-center items-center">
               <ul className=" gap-10 pl-10 hidden lg:flex">
                 <li className="font-light hover:text-blue-500">
-                  <a href="#Home">Home</a>{" "}
+                  <Link to="/#Home">Home</Link>
                 </li>
                 <li className="font-light hover:text-blue-500">
-                  <a href="#Collection"> Collection</a>
+                  <Link to="/#Collection"> Collection</Link>
                 </li>
                 <Link to="/ablutUs">
                   <li className="font-light hover:text-blue-500">About Us</li>
@@ -119,10 +119,15 @@ function Navbar() {
       </div>
       <div className={toggle ? "py-5" : " py-5 hidden "}>
         <ul className="  px-auto  w-full flex flex-col items-center gap-3">
-          <li className="font-light hover:text-blue-500 ">Home</li>
-          <li className="font-light hover:text-blue-500 ">Collection</li>
-          <li className="font-light hover:text-blue-500 ">About Us</li>
+          <li className="font-light hover:text-blue-500 "><Link to="/#Home">Home</Link></li>
+          <li className="font-light hover:text-blue-500 "><Link to="/#Collection"> Collection</Link></li>
+          <li className="font-light hover:text-blue-500 "> <Link to="/ablutUs">About Us </Link></li>
           <li className="font-light hover:text-blue-500 ">Contact</li>
+          {users.role == "Admin" ? (
+            <Link to="/admin">
+              <li className="font-light hover:text-blue-500 ">Admin</li>
+            </Link>
+          ) : null}
         </ul>
       </div>
     </div>

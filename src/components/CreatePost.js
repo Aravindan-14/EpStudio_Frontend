@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { baseURL } from "../Utils/ServerUrl";
 function CreatePost() {
   var [inputs, setInputs] = useState({});
   var [files, setFiles] = useState([]);
@@ -31,7 +32,7 @@ function CreatePost() {
     try {
       setIsSubmitted(false);
       const res = await axios.post(
-        "https://epstudio-api.onrender.com/product/creaditProduct",
+        `${baseURL}/product/creaditProduct`,
         formData
       );
       console.log(res.data);

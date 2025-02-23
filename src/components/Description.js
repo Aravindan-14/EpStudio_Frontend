@@ -10,6 +10,7 @@ import "swiper/css/pagination";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { baseURL } from "../Utils/ServerUrl";
 
 function Description() {
   const [data, setData] = useState([]);
@@ -37,7 +38,7 @@ function Description() {
 
   useEffect(() => {
     axios
-      .get(`https://epstudio-api.onrender.com/product/${id}`)
+      .get(`${baseURL}/product/${id}`)
       .then((res) => {
         setData(res.data);
       })
@@ -91,7 +92,7 @@ function Description() {
                 <SwiperSlide key={index} style={{ display: "flex", justifyContent: "center" }}>
                   <img
                     className="object-center lg:h-[500px] md:h[300px]"
-                    src={`https://epstudio-api.onrender.com/public/Products/${imgSrc}`}
+                    src={`${baseURL}/public/Products/${imgSrc}`}
                     alt=""
                   />
                 </SwiperSlide>

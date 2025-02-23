@@ -3,7 +3,7 @@ import { Outlet, Navigate } from "react-router-dom";
 import axios from "axios";
 import { DataContext } from "./components/Contexts/DataContext";
 import { jellyTriangle } from 'ldrs'
-
+import { baseURL } from "./Utils/ServerUrl";
 jellyTriangle.register()
 
 // Default values shown
@@ -28,7 +28,7 @@ const PrivateRoutes = () => {
 
     try {
       const res = await axios.post(
-        "https://epstudio-api.onrender.com/register/validtoken",
+        `${baseURL}/register/validtoken`,
         {},
         {
           headers: {

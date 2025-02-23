@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
 import axios from "axios";
+import { baseURL } from "../../Utils/ServerUrl";
 
 const DataContext = createContext();
 
@@ -16,7 +17,7 @@ const DataProvider = ({ children }) => {
     }
 
     axios
-      .get("https://epstudio-api.onrender.com/verify", {
+      .get(`${baseURL}/verify`, {
         headers: { "Auth-token": token },
       })
       .then((response) => {

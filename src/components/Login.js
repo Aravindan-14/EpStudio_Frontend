@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import loginbanner from "../Assets/commenAssets/loginbanner.jpg"
+import { baseURL } from "../Utils/ServerUrl";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -48,7 +49,7 @@ function Login() {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://epstudio-api.onrender.com/login",
+        `${baseURL}/login`,
         {
           email, // Changed from `username` to `email`
           password,

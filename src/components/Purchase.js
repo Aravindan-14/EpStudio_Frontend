@@ -9,25 +9,31 @@ import { DataContext } from "./Contexts/DataContext";
 import { mirage } from 'ldrs'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { baseURL } from "../Utils/ServerUrl";
 mirage.register()
+
 function Purchase() {
   var [inputs, setInputs] = useState({});
   var [file, setFile] = useState({});
-  // const [submited, setSubmited] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
   const [output, setOutput] = useState("OpenCV.js is loading...");
   const [isCvReady, setIsCvReady] = useState(false);
   const location = useLocation();
   const { productData } = location.state || {};
   const { users, isAuth, setIsAuth, open, setOpen } = useContext(DataContext);
+  const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState("");
   const navigat = useNavigate();
+
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  console.log(productData, "from buy scren ");
+  console.log(productData, "from buy screen ");
 
   useEffect(() => {
     const checkCvReady = setInterval(() => {
@@ -44,6 +50,7 @@ function Purchase() {
   const handleImageUpload = (e) => {
     setFile(e.target.files[0]);
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
@@ -61,18 +68,20 @@ function Purchase() {
     formData.append("User_ID", users.id);
 
     axios
-      .post("https://epstudio-api.onrender.com/purchase/order", formData)
+      .post(`${baseURL}/purchase/order`, formData)
       .then((res) => {
         if (res) {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Order Placed Successfully....!",
-            showConfirmButton: false,
-            timer: 3000,
-          });
           setLoading(false);
-          navigat("/");
+          setIsOpen(true);
+          toast.success("Order placed successfully...", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "light",
+          });
         }
       })
       .catch((err) => {
@@ -85,9 +94,32 @@ function Purchase() {
           draggable: true,
           theme: "light",
         });
-      }).finally(()=>{
-        setLoading(false)
       })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleSubmitFeedback = async () => {
+    console.log({ rating, feedback });
+
+    try {
+      const res = await axios.post(`${baseURL}/purchase/feedback`, { rating, feedback, CustomerId: users.id, CustomerName: users.name });
+
+      if (res.data.code === 200) {
+        Swal.fire({
+          title: "Order Placed Successfully",
+          text: "Thank You For Your Feedback..",
+          icon: "success",
+          timer: 2000, // Closes after 3 seconds
+          showConfirmButton: false, // Hides the "OK" button
+        });
+        setIsOpen(false);
+        navigat("/");
+      }
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+    }
   };
 
   return (
@@ -236,17 +268,60 @@ function Purchase() {
                 type="submit"
                 className=" items-center justify-center h-10 flex  my-5 col-span-2 w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 "
               >
-               {loading?<l-mirage
-                size="90"
-                speed="3.7"
-                color="white"
-              ></l-mirage>:"Login"}
+                {loading ? <l-mirage
+                  size="90"
+                  speed="3.7"
+                  color="white"
+                ></l-mirage> : "Login"}
               </button>
             </form>
           </div>
         </div>
+
+        {isOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-[999999]">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+              <h2 className="text-xl font-semibold text-center">How many stars would you like to give us?</h2>
+              <h2 className="text-sm my-2 text-center">Your feedback helps us improve our services and better serve our community.</h2>
+
+              <div className="flex justify-center gap-1 my-4">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    className={`h-8 w-8 cursor-pointer my-1 text-4xl ${rating >= star ? "text-yellow-400" : "text-gray-300"}`}
+                    onClick={() => setRating(star)}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+
+              <textarea
+                className="w-full p-2 border rounded-md"
+                placeholder="Share your feedback..."
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+              />
+
+              <div className="flex justify-end gap-2 mt-4">
+                <button className="px-4 py-2 border rounded" onClick={() => setIsOpen(false)}>Skip</button>
+                <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={handleSubmitFeedback} disabled={!rating && !feedback}>Submit</button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <Footer />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="light"
+        toastContainerClassName="z-[9999]"
+      />
     </>
   );
 }
