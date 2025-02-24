@@ -36,7 +36,7 @@ export const generateToken = async (id) => {
     });
     console.log('fcw token', token);
     if (token) {
-      const res = await axios.put(`${baseURL}/register/updatewebToken`, { token: token, id: id })
+      // const res = await axios.put(`${baseURL}/register/updatewebToken`, { token: token, id: id })
     }
   } else {
     console.log('Unable to get permission to notify.');

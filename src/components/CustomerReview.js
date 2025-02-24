@@ -29,7 +29,7 @@ function CustomerReview() {
 
     useEffect(() => {
         const getRandomPosition = () => {
-            const maxX = window.innerWidth - 250;
+            const maxX = window.innerWidth - 350;
             const maxY = window.innerHeight - 500;
             return {
                 x: Math.max(10, Math.floor(Math.random() * maxX)),
@@ -96,7 +96,7 @@ function CustomerReview() {
                                                     ))}
                                                 </div>
                                             </div>
-                                            <div className="text-blue-800 text-sm mt-4 font-gloria">{val.Feedback}</div>
+                                            <div className="text-blue-800 text-sm mt-4 font-gloria text-center flex justify-center items-center">{val.Feedback}</div>
                                         </div>
                                     </div>
                                     <img className="h-10 w-10 absolute -top-1 left-[40%]" src={pin} alt="" />

@@ -21,7 +21,7 @@ function Navbar() {
   };
   return (
     <div className="">
-      <div className=" shadow-lg  z-10 w-screen bg-white">
+      <div className=" shadow-lg  z-10 w-screen md:w-[98.8vw] bg-white">
         <div className="flex justify-between items-center container mx-auto px-5 md:px-20 h-16 ">
           <div className="flex justify-between ">
             <div
@@ -119,10 +119,10 @@ function Navbar() {
       </div>
       <div className={toggle ? "py-5" : " py-5 hidden "}>
         <ul className="  px-auto  w-full flex flex-col items-center gap-3">
-          <li className="font-light hover:text-blue-500 "><Link to="/#Home">Home</Link></li>
-          <li className="font-light hover:text-blue-500 "><Link to="/#Collection"> Collection</Link></li>
-          <li className="font-light hover:text-blue-500 "> <Link to="/ablutUs">About Us </Link></li>
-          <li className="font-light hover:text-blue-500 ">Contact</li>
+          <li className="font-light hover:text-blue-500 " onClick={() => setToggle(false)}><Link to="/#Home">Home</Link></li>
+          <li className="font-light hover:text-blue-500 " onClick={() => setToggle(false)}><Link to="/#Collection"> Collection</Link></li>
+          <li className="font-light hover:text-blue-500 " onClick={() => setToggle(false)}> <Link to="/ablutUs">About Us </Link></li>
+          <li className="font-light hover:text-blue-500 " onClick={() => setToggle(false)}>Contact</li>
           {users.role == "Admin" ? (
             <Link to="/admin">
               <li className="font-light hover:text-blue-500 ">Admin</li>
