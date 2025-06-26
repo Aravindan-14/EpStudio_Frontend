@@ -21,6 +21,64 @@ export default function Example() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [chatOpen, setChatOpen] = useState(false);
+
+
+  //start
+
+
+
+  const [savedMessages, setSavedMessages] = useState([]);
+  const [draggedMessage, setDraggedMessage] = useState(null);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    console.log(savedMessages)
+  }, [savedMessages])
+
+  const handleDragStart = (e, message) => {
+    setSavedMessages([])
+    setDraggedMessage(message);
+    const rect = e.target.getBoundingClientRect();
+    setDragOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  const handleDrag = (e) => {
+    if (!draggedMessage) return;
+
+    // Prevent default behavior to avoid any vertical movement
+    e.preventDefault();
+
+    // Only update the horizontal position
+    const target = e.target;
+    target.style.transform = `translateX(${e.clientX - dragOffset.x - target.getBoundingClientRect().left}px)`;
+  };
+
+  const handleDragEnd = (e, message) => {
+    const dragDistance =
+      e.clientX - (e.target.getBoundingClientRect().left + dragOffset.x);
+
+    // If dragged more than 100px to the right, save the message
+    if (dragDistance > 100) {
+      setSavedMessages((prev) => {
+        // Check if message is already saved
+        if (!prev.find((msg) => msg.id === message.id)) {
+          return [...prev, message];
+        }
+        return prev;
+      });
+    }
+
+    setDraggedMessage(null);
+    setDragOffset({ x: 0, y: 0 });
+  };
+
+
+  //end
+
+
   useEffect(() => {
     const fetchSenderChatId = async () => {
       try {
@@ -215,7 +273,10 @@ export default function Example() {
                                   }`}
                               >
                                 {msg.sender_ID == users.id ? (
-                                  <div className="relative rounded-l-xl rounded-br-xl text-xs bg-gradient-to-r from-blue-700 to-blue-900 w-fit h-fit mr-2 text-white p-2 mt-1 text-start font-semibold">
+                                  <div draggable
+                                    onDrag={handleDrag}
+                                    onDragStart={(e) => handleDragStart(e, msg.message)}
+                                    onDragEnd={(e) => handleDragEnd(e, msg.message)} className="relative rounded-l-xl rounded-br-xl text-xs bg-gradient-to-r from-blue-700 to-blue-900 w-fit h-fit mr-2 text-white p-2 mt-1 text-start font-semibold">
                                     <p>{msg.message}</p>
                                     <p></p>
                                     <div
@@ -226,7 +287,12 @@ export default function Example() {
                                     ></div>
                                   </div>
                                 ) : (
-                                  <div className="my-1 relative rounded-r-xl rounded-bl-xl text-xs bg-gradient-to-r from-blue-700 to-blue-900 text-white w-fit h-fit ml-2 p-2 font-semibold">
+                                  <div
+                                    draggable
+                                    onDrag={handleDrag}
+                                    onDragStart={(e) => handleDragStart(e, msg.message)}
+                                    onDragEnd={(e) => handleDragEnd(e, msg.message)}
+                                    className="my-1 relative rounded-r-xl rounded-bl-xl text-xs bg-gradient-to-r from-blue-700 to-blue-900 text-white w-fit h-fit ml-2 p-2 font-semibold">
                                     <p>{msg.message}</p>
                                     <p></p>
                                     <div
@@ -251,6 +317,7 @@ border-r-[0px] border-r-transparent"
                       >
                         <i class="fa-solid fa-angles-down cursor-pointer"></i>
                       </div>
+                      {savedMessages.length > 0 && <p className="absolute bg-white -top-12 w-[95%] p-3 "> <p className="bg-gray-200 text-xs p-2 rounded">{savedMessages}</p></p>}
                       <input
                         placeholder=" Type your Message..."
                         type="text"
