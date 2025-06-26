@@ -37,7 +37,7 @@ export default function Example() {
     };
 
     fetchSenderChatId();
-  }, [users.id,chatOpen]);
+  }, [users.id, chatOpen]);
 
   useEffect(() => {
     const fetchMyMessage = async () => {
@@ -139,7 +139,7 @@ export default function Example() {
       Data
     );
 
-    if(res.status===200){
+    if (res.status === 200) {
       setChatOpen(true)
     }
   };
@@ -151,18 +151,18 @@ export default function Example() {
   };
 
   return (
-    <Dialog open={open} onClose={setOpen} className="relative z-50">
+    <Dialog open={open} onClose={setOpen} className="relative z-50 ">
       <DialogBackdrop
         transition
-        className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity duration-500 ease-in-out data-[closed]:opacity-0"
+        className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity duration-500 ease-in-out data-[closed]:opacity-0 w-screen"
       />
 
-      <div className="fixed inset-0 overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+      <div className="fixed inset-0 overflow-hidden h-screen">
+        <div className="absolute inset-0 overflow-hidden h-screen">
+          <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full md:pl-10 h-full">
             <DialogPanel
               transition
-              className="pointer-events-auto relative w-screen max-w-md transform transition duration-500 ease-in-out data-[closed]:translate-x-full sm:duration-700"
+              className="pointer-events-auto relative w-screen max-w-md transform transition duration-500 ease-in-out data-[closed]:translate-x-full sm:duration-700 bg-amber-200"
             >
               <TransitionChild>
                 <div className="absolute left-0 top-0 -ml-8 flex pr-2 pt-4 duration-500 ease-in-out data-[closed]:opacity-0 sm:-ml-10 sm:pr-4">
@@ -177,9 +177,9 @@ export default function Example() {
                   </button>
                 </div>
               </TransitionChild>
-              <div className="flex h-full flex-col overflow-y-scroll bg-white py-3 shadow-xl">
+              <div className="flex h-full screen flex-col overflow-y-scroll bg-white py-3 shadow-xl">
                 {senderChatId || chatOpen ? (
-                  <div>
+                  <div className="flex flex-col h-full">
                     <div className="px-4 sm:px-6">
                       <DialogTitle className="text-base font-semibold leading-6 text-gray-900">
                         <div className="w-full  h-20 flex justify-start items-center gap-5 p-2">
@@ -199,42 +199,40 @@ export default function Example() {
                       </DialogTitle>
                     </div>
                     <div className="relative mt-2 h-full flex-1 px-4 sm:px-6">
-                      <div className="w-full h-full bg-gradient-to-r from-violet-200 to-fuchsia-200">
+                      <div className="w-full h-[80vh] md:h-[77vh] bg-gradient-to-r from-blue-200 to-blue-300">
                         <div
                           // scrollbar-custom
                           id="chat-area"
-                          className={`h-[468px] w-full mb-1 flex flex-col overflow-auto scrollbar-none p-2 ${
-                            true ? "items-end" : "items-start"
-                          } `}
+                          className={`h-full w-full mb-1 flex flex-col overflow-auto scrollbar-none p-2 ${true ? "items-end" : "items-start"
+                            } `}
                         >
                           {messages.map((msg) => {
                             return (
                               <div
-                                className={`w-full  flex ${
-                                  msg.sender_ID == users.id
-                                    ? "justify-end"
-                                    : "justify-start"
-                                }`}
+                                className={`w-full  flex ${msg.sender_ID == users.id
+                                  ? "justify-end"
+                                  : "justify-start"
+                                  }`}
                               >
                                 {msg.sender_ID == users.id ? (
-                                  <div className="relative rounded-l-xl rounded-br-xl text-sm bg-gradient-to-r from-violet-400 to-fuchsia-400 w-fit h-fit mr-2 text-white p-2 mt-1 text-start font-semibold">
+                                  <div className="relative rounded-l-xl rounded-br-xl text-xs bg-gradient-to-r from-blue-700 to-blue-900 w-fit h-fit mr-2 text-white p-2 mt-1 text-start font-semibold">
                                     <p>{msg.message}</p>
                                     <p></p>
                                     <div
                                       class="absolute top-0 -right-1 w-0 h-0 
       border-t-[0px] border-t-transparent
-      border-l-[10px] border-l-fuchsia-400
+      border-l-[10px] border-l-blue-900
       border-b-[10px] border-b-transparent"
                                     ></div>
                                   </div>
                                 ) : (
-                                  <div className="my-1 relative rounded-r-xl rounded-bl-xl text-sm bg-violet-400 text-white w-fit h-fit ml-2 p-2 font-semibold">
+                                  <div className="my-1 relative rounded-r-xl rounded-bl-xl text-xs bg-gradient-to-r from-blue-700 to-blue-900 text-white w-fit h-fit ml-2 p-2 font-semibold">
                                     <p>{msg.message}</p>
                                     <p></p>
                                     <div
                                       className="absolute top-0 -left-1 w-0 h-0 
 border-l-[10px] border-l-transparent
-border-t-[12px] border-t-violet-400
+border-t-[12px] border-t-blue-700
 border-r-[0px] border-r-transparent"
                                     ></div>
                                   </div>
@@ -243,31 +241,31 @@ border-r-[0px] border-r-transparent"
                             );
                           })}
                         </div>
-                       
+
                       </div>
                     </div>
-                    <div className="flex justify-between items-center w-full p-3 bottom-14 relative bg-white">
-                          <div
-                            onClick={scrollDown}
-                            className="absolute -top-5 left-0 flex justify-center w-full text-white/50 "
-                          >
-                            <i class="fa-solid fa-angles-down cursor-pointer"></i>
-                          </div>
-                          <input
-                            placeholder=" Type your Message..."
-                            type="text"
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                            className="w-full h-10 mr-3 pl-5  outline-none bg-slate-100 ml-3 border-black/50 "
-                          />
-                          <button
-                            onClick={sendMessage}
-                            className="bg-blue-500 h-10 w-12 rounded-lg text-white"
-                          >
-                            <i class="fa-regular fa-paper-plane"></i>
-                          </button>
-                        </div>
+                    <div className="flex justify-between items-center w-full p-3 relative bg-white">
+                      <div
+                        onClick={scrollDown}
+                        className="absolute -top-5 left-0 flex justify-center w-full text-white/50 "
+                      >
+                        <i class="fa-solid fa-angles-down cursor-pointer"></i>
+                      </div>
+                      <input
+                        placeholder=" Type your Message..."
+                        type="text"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        className="w-full h-10 mr-3 pl-5  outline-none bg-slate-100 ml-3 border-black/50 "
+                      />
+                      <button
+                        onClick={sendMessage}
+                        className="bg-blue-500 h-10 w-12 rounded-lg text-white"
+                      >
+                        <i class="fa-regular fa-paper-plane"></i>
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <div className="w-full h-full flex flex-col justify-center items-center">
