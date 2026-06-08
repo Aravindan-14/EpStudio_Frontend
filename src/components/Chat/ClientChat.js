@@ -494,163 +494,158 @@ export default function Example() {
           <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full  h-full">
             <DialogPanel
               transition
-              className="pointer-events-auto relative w-screen max-w-screen md:max-w-md transform transition duration-500 ease-in-out data-[closed]:translate-x-full sm:duration-700 bg-amber-200"
+              className="pointer-events-auto relative w-screen max-w-screen md:max-w-md transform transition duration-500 ease-in-out data-[closed]:translate-x-full sm:duration-700 bg-slate-50 shadow-2xl"
             >
-              <div className="flex h-full screen flex-col overflow-y-scroll bg-white py-3 shadow-xl">
+              <div className="flex h-full flex-col bg-slate-50 overflow-hidden shadow-xl">
                 {senderChatId || chatOpen ? (
-                  <div className="flex flex-col h-full">
-                    <div className="px-4 sm:px-6">
-                      <DialogTitle className="text-base font-semibold leading-6 text-gray-900">
-                        <div className="w-full  h-20 flex justify-start items-center gap-5 p-2">
-                          <div className="h-12 overflow-hidden w-12 rounded-full bg-red-100">
-                            <img
-                              className="object-cover"
-                              src={profile}
-                              alt=""
-                            />
-                          </div>
-                          <div>
-                            <p className="text-sm font-semibold text-slate-800">EP Studio</p>
-                            {adminStatus.is_online ? (
-                              <span className="text-xs text-emerald-500 font-medium flex items-center gap-1">
-                                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                Online
-                              </span>
-                            ) : (
-                              <span className="text-[11px] text-slate-400 font-medium">
-                                {formatLastSeen(adminStatus.last_seen)}
-                              </span>
-                            )}
-                          </div>
+                  <div className="flex flex-col h-full overflow-hidden">
+                    {/* Header */}
+                    <div className="w-full h-20 flex justify-between items-center p-4 border-b border-slate-100 bg-white/90 backdrop-blur-sm sticky top-0 z-20">
+                      <div className="flex items-center gap-3.5">
+                        <div className="h-11 w-11 rounded-full overflow-hidden bg-slate-100 shadow-inner relative flex-shrink-0">
+                          <img
+                            className="object-cover h-full w-full"
+                            src={profile}
+                            alt="EP Studio Logo"
+                          />
+                          {adminStatus.is_online && (
+                            <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white animate-pulse"></span>
+                          )}
                         </div>
-                        <hr className="w-full h-0 bg-slate-100" />
-                      </DialogTitle>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-bold text-slate-800">EP Studio</span>
+                          {adminStatus.is_online ? (
+                            <span className="text-[10px] text-emerald-500 font-bold flex items-center gap-1 mt-0.5">
+                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                              Online
+                            </span>
+                          ) : (
+                            <span className="text-[10px] text-slate-400 font-semibold mt-0.5">
+                              {formatLastSeen(adminStatus.last_seen)}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setOpen(false)}
+                        className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors"
+                        aria-label="Close Chat"
+                      >
+                        <X size={18} />
+                      </button>
                     </div>
-                    <div className="relative mt-2 h-full flex-1 px-4 sm:px-6">
-                      <div className="w-full h-[80vh] md:h-[77vh] bg-gradient-to-r from-blue-200 to-blue-300">
-                        <div
-                          // scrollbar-custom
-                          id="chat-area"
-                          className={`h-full w-full mb-1 flex flex-col overflow-auto scrollbar-none p-2 ${true ? "items-end" : "items-start"
-                            } `}
-                        >
-                          {messages.map((msg, index) => {
-                            const attachments = parseMedia(msg.media);
-                            const visualAttachments = attachments.filter(item => item.type === "image" || item.type === "video");
-                            const otherAttachments = attachments.filter(item => item.type !== "image" && item.type !== "video");
-                            return (
-                              <div
-                                key={msg.id || index}
-                                className={`w-full flex ${String(msg.sender_ID) === String(users.id)
-                                  ? "justify-end"
-                                  : "justify-start"
-                                  }`}
-                              >
-                                {String(msg.sender_ID) === String(users.id) ? (
-                                  <div draggable
-                                    onDrag={handleDrag}
-                                    onDragStart={(e) => handleDragStart(e, msg.message || "Media Attachment")}
-                                    onDragEnd={(e) => handleDragEnd(e, msg.message || "Media Attachment")} className="relative rounded-l-xl rounded-br-xl text-xs bg-gradient-to-r from-blue-700 to-blue-900 w-fit h-fit max-w-[75%] mr-2 text-white p-2.5 mt-1 text-start font-semibold flex flex-col gap-1.5 shadow-sm">
-                                    {msg.message && <p className="leading-relaxed break-words">{msg.message}</p>}
-                                    {attachments.length > 0 && (
-                                      <div className="space-y-2 mt-1">
-                                        <MediaGrid items={visualAttachments} />
-                                        {otherAttachments.map((item, mIdx) => {
-                                          const mediaURL = `${baseURL}/public/Chat/${item.url}`;
-                                          if (item.type === "audio") {
-                                            return (
-                                              <VoicePlayer
-                                                key={mIdx}
-                                                src={mediaURL}
-                                                darkTheme={true}
-                                              />
-                                            );
-                                          } else {
-                                            return (
-                                              <a
-                                                key={mIdx}
-                                                href={mediaURL}
-                                                download
-                                                className="flex items-center gap-1.5 underline text-[10px] font-bold break-all text-blue-200 hover:text-white"
-                                              >
-                                                <FileCode size={12} /> Download {item.name}
-                                              </a>
-                                            );
-                                          }
-                                        })}
-                                      </div>
-                                    )}
 
-                                    {/* Timestamp and status ticks */}
-                                    <div className="self-end flex items-center gap-0.5 text-[9px] mt-1 select-none font-medium text-blue-200">
-                                      <span>{formatMessageTime(msg.date_Time)}</span>
-                                      <span className="inline-flex font-normal">
-                                        {renderTicks(msg.status)}
-                                      </span>
+                    {/* Chat Area Container */}
+                    <div className="flex-1 overflow-hidden relative bg-slate-50 flex flex-col p-4">
+                      <div
+                        id="chat-area"
+                        className="flex-1 overflow-y-auto space-y-4 scrollbar-none flex flex-col"
+                      >
+                        {messages.map((msg, index) => {
+                          const attachments = parseMedia(msg.media);
+                          const visualAttachments = attachments.filter(item => item.type === "image" || item.type === "video");
+                          const otherAttachments = attachments.filter(item => item.type !== "image" && item.type !== "video");
+                          return (
+                            <div
+                              key={msg.id || index}
+                              className={`w-full flex ${String(msg.sender_ID) === String(users.id)
+                                ? "justify-end"
+                                : "justify-start"
+                                }`}
+                            >
+                              {String(msg.sender_ID) === String(users.id) ? (
+                                <div 
+                                  draggable
+                                  onDrag={handleDrag}
+                                  onDragStart={(e) => handleDragStart(e, msg.message || "Media Attachment")}
+                                  onDragEnd={(e) => handleDragEnd(e, msg.message || "Media Attachment")} 
+                                  className="relative rounded-2xl rounded-tr-none text-xs bg-gradient-to-br from-blue-600 to-indigo-600 w-fit h-fit max-w-[75%] mr-1 text-white p-3 mt-1 text-start font-medium flex flex-col gap-1.5 shadow-sm border border-blue-500/10"
+                                >
+                                  {msg.message && <p className="leading-relaxed break-words">{msg.message}</p>}
+                                  {attachments.length > 0 && (
+                                    <div className="space-y-2 mt-1">
+                                      <MediaGrid items={visualAttachments} />
+                                      {otherAttachments.map((item, mIdx) => {
+                                        const mediaURL = `${baseURL}/public/Chat/${item.url}`;
+                                        if (item.type === "audio") {
+                                          return (
+                                            <VoicePlayer
+                                              key={mIdx}
+                                              src={mediaURL}
+                                              darkTheme={true}
+                                            />
+                                          );
+                                        } else {
+                                          return (
+                                            <a
+                                              key={mIdx}
+                                              href={mediaURL}
+                                              download
+                                              className="flex items-center gap-1.5 underline text-[10px] font-bold break-all text-blue-200 hover:text-white"
+                                            >
+                                              <FileCode size={12} /> Download {item.name}
+                                            </a>
+                                          );
+                                        }
+                                      })}
                                     </div>
+                                  )}
 
-                                    <div
-                                      class="absolute top-0 -right-1 w-0 h-0 
-      border-t-[0px] border-t-transparent
-      border-l-[10px] border-l-blue-900
-      border-b-[10px] border-b-transparent"
-                                    ></div>
+                                  {/* Timestamp and status ticks */}
+                                  <div className="self-end flex items-center gap-0.5 text-[9px] mt-1 select-none font-medium text-blue-200/90">
+                                    <span>{formatMessageTime(msg.date_Time)}</span>
+                                    <span className="inline-flex font-normal">
+                                      {renderTicks(msg.status)}
+                                    </span>
                                   </div>
-                                ) : (
-                                  <div
-                                    draggable
-                                    onDrag={handleDrag}
-                                    onDragStart={(e) => handleDragStart(e, msg.message || "Media Attachment")}
-                                    onDragEnd={(e) => handleDragEnd(e, msg.message || "Media Attachment")}
-                                    className="my-1 relative rounded-r-xl rounded-bl-xl text-xs bg-gradient-to-r from-blue-700 to-blue-900 text-white w-fit h-fit max-w-[75%] ml-2 p-2.5 font-semibold flex flex-col gap-1.5 shadow-sm">
-                                    {msg.message && <p className="leading-relaxed break-words">{msg.message}</p>}
-                                    {attachments.length > 0 && (
-                                      <div className="space-y-2 mt-1">
-                                        <MediaGrid items={visualAttachments} />
-                                        {otherAttachments.map((item, mIdx) => {
-                                          const mediaURL = `${baseURL}/public/Chat/${item.url}`;
-                                          if (item.type === "audio") {
-                                            return (
-                                              <VoicePlayer
-                                                key={mIdx}
-                                                src={mediaURL}
-                                                darkTheme={true}
-                                              />
-                                            );
-                                          } else {
-                                            return (
-                                              <a
-                                                key={mIdx}
-                                                href={mediaURL}
-                                                download
-                                                className="flex items-center gap-1.5 underline text-[10px] font-bold break-all text-blue-200 hover:text-white"
-                                              >
-                                                <FileCode size={12} /> Download {item.name}
-                                              </a>
-                                            );
-                                          }
-                                        })}
-                                      </div>
-                                    )}
-
-                                    {/* Timestamp */}
-                                    <div className="self-end text-[9px] mt-1 select-none font-medium text-blue-200">
-                                      {formatMessageTime(msg.date_Time)}
+                                </div>
+                              ) : (
+                                <div
+                                  draggable
+                                  onDrag={handleDrag}
+                                  onDragStart={(e) => handleDragStart(e, msg.message || "Media Attachment")}
+                                  onDragEnd={(e) => handleDragEnd(e, msg.message || "Media Attachment")}
+                                  className="my-1 relative rounded-2xl rounded-tl-none text-xs bg-white text-slate-800 w-fit h-fit max-w-[75%] ml-1 p-3 font-medium flex flex-col gap-1.5 shadow-sm border border-slate-100"
+                                >
+                                  {msg.message && <p className="leading-relaxed break-words">{msg.message}</p>}
+                                  {attachments.length > 0 && (
+                                    <div className="space-y-2 mt-1">
+                                      <MediaGrid items={visualAttachments} />
+                                      {otherAttachments.map((item, mIdx) => {
+                                        const mediaURL = `${baseURL}/public/Chat/${item.url}`;
+                                        if (item.type === "audio") {
+                                          return (
+                                            <VoicePlayer
+                                              key={mIdx}
+                                              src={mediaURL}
+                                              darkTheme={false}
+                                            />
+                                          );
+                                        } else {
+                                          return (
+                                            <a
+                                              key={mIdx}
+                                              href={mediaURL}
+                                              download
+                                              className="flex items-center gap-1.5 underline text-[10px] font-bold break-all text-blue-600 hover:text-blue-700"
+                                            >
+                                              <FileCode size={12} /> Download {item.name}
+                                            </a>
+                                          );
+                                        }
+                                      })}
                                     </div>
+                                  )}
 
-                                    <div
-                                      className="absolute top-0 -left-1 w-0 h-0 
- border-l-[10px] border-l-transparent
- border-t-[12px] border-t-blue-700
- border-r-[0px] border-r-transparent"
-                                    ></div>
+                                  {/* Timestamp */}
+                                  <div className="self-end text-[9px] mt-1 select-none font-medium text-slate-400">
+                                    {formatMessageTime(msg.date_Time)}
                                   </div>
-                                )}
-                              </div>
-                            );
-                          })}
-                        </div>
-
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                     <div className="flex flex-col w-full relative bg-white border-t border-slate-100">
@@ -964,12 +959,12 @@ const MediaGrid = ({ items }) => {
         <video
           src={mediaURL}
           controls
-          className="max-w-xs rounded-xl shadow-sm border border-slate-200"
+          className="w-full max-w-[240px] rounded-xl shadow-sm border border-slate-200"
         />
       );
     }
     return (
-      <a href={mediaURL} target="_blank" rel="noreferrer" className="block max-w-xs rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+      <a href={mediaURL} target="_blank" rel="noreferrer" className="block w-full max-w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
         <img
           src={mediaURL}
           alt={item.name}
@@ -981,7 +976,7 @@ const MediaGrid = ({ items }) => {
 
   if (total === 2) {
     return (
-      <div className="grid grid-cols-2 gap-1 w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+      <div className="grid grid-cols-2 gap-1 w-full max-w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
         <div className="w-full aspect-square">{renderMediaItem(items[0], "w-full h-full object-cover")}</div>
         <div className="w-full aspect-square">{renderMediaItem(items[1], "w-full h-full object-cover")}</div>
       </div>
@@ -990,7 +985,7 @@ const MediaGrid = ({ items }) => {
 
   if (total === 3) {
     return (
-      <div className="grid grid-cols-3 gap-1 w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+      <div className="grid grid-cols-3 gap-1 w-full max-w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
         <div className="w-full aspect-square">{renderMediaItem(items[0], "w-full h-full object-cover")}</div>
         <div className="w-full aspect-square">{renderMediaItem(items[1], "w-full h-full object-cover")}</div>
         <div className="w-full aspect-square">{renderMediaItem(items[2], "w-full h-full object-cover")}</div>
@@ -1001,7 +996,7 @@ const MediaGrid = ({ items }) => {
   // 4 or more items
   const remainingCount = total - 3;
   return (
-    <div className="grid grid-cols-2 gap-1 w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+    <div className="grid grid-cols-2 gap-1 w-full max-w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
       <div className="w-full aspect-square">{renderMediaItem(items[0], "w-full h-full object-cover")}</div>
       <div className="w-full aspect-square">{renderMediaItem(items[1], "w-full h-full object-cover")}</div>
       <div className="w-full aspect-square">{renderMediaItem(items[2], "w-full h-full object-cover")}</div>

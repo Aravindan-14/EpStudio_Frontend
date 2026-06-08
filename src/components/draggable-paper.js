@@ -1,12 +1,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import paper1 from "../Assets/commenAssets/paper1.png"
-function DraggablePaper({ children, initialPosition = { x: 0, y: 0 } }) {
+
+function DraggablePaper({ children, initialPosition = { x: 0, y: 0 }, rotation = 0 }) {
   const [position, setPosition] = useState(initialPosition);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
+  // Synchronize internal state when the initialPosition gets computed from client dimensions
+  useEffect(() => {
+    setPosition(initialPosition);
+  }, [initialPosition]);
+
   const handleMouseDown = (e) => {
+    // Only drag on left click
+    if (e.button !== 0) return;
     setIsDragging(true);
     setDragStart({
       x: e.clientX - position.x,
@@ -37,39 +44,19 @@ function DraggablePaper({ children, initialPosition = { x: 0, y: 0 } }) {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isDragging, dragStart]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDragging]);
 
   return (
     <div
       onMouseDown={handleMouseDown}
       style={{
-        transform: `translate(${position.x}px, ${position.y}px)`,
-        transition: isDragging ? "none" : "transform 0.1s ease-out",
+        transform: `translate(${position.x}px, ${position.y}px) rotate(${rotation}deg)`,
+        transition: isDragging ? "none" : "transform 0.15s ease-out, shadow 0.15s ease, scale 0.15s ease",
       }}
-      className="absolute cursor-move  rounded-lg p-4 select-none"
+      className={`absolute cursor-move select-none ${isDragging ? "shadow-2xl z-50 scale-105" : ""}`}
     >
-      <img style={{ filter: "drop-shadow(.2rem .2rem 5px black)" }} className="h-80 w-96 absolute -z-10 top-0" src={paper1} alt="" />
       {children}
-    </div>
-  );
-}
-
-function DraggablePaperStory() {
-  return (
-    <div className="relative w-full h-[500px] ">
-      <DraggablePaper initialPosition={{ x: 50, y: 50 }}>
-        <div className="w-[200px]">
-          <h2 className="text-lg font-bold mb-2">Draggable Paper</h2>
-          <p className="text-gray-600">Drag me around!</p>
-        </div>
-      </DraggablePaper>
-
-      <DraggablePaper initialPosition={{ x: 300, y: 100 }}>
-        <div className="w-[200px]">
-          <h3 className="text-lg font-bold mb-2">Another Paper</h3>
-          <p className="text-gray-600">You can drag me too!</p>
-        </div>
-      </DraggablePaper>
     </div>
   );
 }

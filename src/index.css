@@ -1,9 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+body {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Custom global scrollbar styling */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; /* slate-300 */
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; /* slate-400 */
+}
 
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
@@ -16,3 +38,63 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
+/* Swiper Custom Pagination & Navigation Overrides */
+.custom-swiper-pagination .swiper-pagination-bullet {
+  background: #ffffff !important;
+  opacity: 0.45;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.custom-swiper-pagination .swiper-pagination-bullet-active {
+  opacity: 1;
+  background: #6366f1 !important; /* Indigo-500 */
+  width: 24px !important;
+  border-radius: 4px;
+}
+
+/* Luxury Easing Animations */
+@keyframes zoom-slow {
+  0% {
+    transform: scale(1.02) translate(0px, 0px);
+  }
+  100% {
+    transform: scale(1.08) translate(-8px, -4px);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-zoom-slow {
+  animation: zoom-slow 20s infinite alternate ease-in-out;
+}
+
+.animate-fade-in-up-1 {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.animate-fade-in-up-2 {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.animate-fade-in-up-3 {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.animate-fade-in-up-4 {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+

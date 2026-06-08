@@ -447,7 +447,7 @@ function Message() {
       </div>
 
       {/* 2. Message History Pane */}
-      <div className={`flex-1 h-full flex flex-col bg-slate-50/30 ${!currentUser.chat_ID ? "hidden md:flex justify-center items-center" : "flex"}`}>
+      <div className={`flex-1 min-w-0 h-full flex flex-col bg-slate-50/30 ${!currentUser.chat_ID ? "hidden md:flex justify-center items-center" : "flex"}`}>
         {currentUser.chat_ID ? (
           <>
             {/* Active Chat Header */}
@@ -493,7 +493,7 @@ function Message() {
             </div>
 
             {/* Messages Scroll Area */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
               {messages.map((msg, idx) => {
                 const isAdmin = msg.sender_ID === users.id;
                 const attachments = parseMedia(msg.media);
@@ -561,7 +561,7 @@ function Message() {
             </div>
 
             {/* Input Bar */}
-            <div className="p-4 bg-white border-t border-slate-200">
+            <div className="p-3 md:p-4 bg-white border-t border-slate-200">
               {/* Attachment Previews Bar */}
               {attachmentPreviews.length > 0 && (
                 <div className="flex gap-3 overflow-x-auto pb-3 mb-3 border-b border-slate-100 scrollbar-none">
@@ -620,7 +620,7 @@ function Message() {
                 </div>
               ) : (
                 /* Regular Send Mode UI */
-                <form onSubmit={sendMessage} className="flex items-center gap-3">
+                <form onSubmit={sendMessage} className="flex items-center gap-2 md:gap-3">
                   <input
                     type="file"
                     multiple
@@ -632,7 +632,7 @@ function Message() {
                   <button 
                     type="button" 
                     onClick={() => document.getElementById("chatMediaInput").click()}
-                    className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-xl transition-all"
+                    className="p-2 md:p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-xl transition-all"
                     title="Select Attachments"
                   >
                     <Paperclip size={20} />
@@ -641,7 +641,7 @@ function Message() {
                   <button 
                     type="button" 
                     onClick={startRecording}
-                    className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-xl transition-all"
+                    className="p-2 md:p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-xl transition-all"
                     title="Record Voice Message"
                   >
                     <Mic size={20} />
@@ -651,7 +651,7 @@ function Message() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder={selectedAttachments.length > 0 ? "Add a description..." : "Write a message..."}
-                    className="flex-1 py-2.5 px-4 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 bg-slate-50 transition-all"
+                    className="flex-1 min-w-0 py-2.5 px-4 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 bg-slate-50 transition-all"
                     type="text"
                   />
                   <button
@@ -845,12 +845,12 @@ const MediaGrid = ({ items }) => {
         <video
           src={mediaURL}
           controls
-          className="max-w-xs rounded-xl shadow-sm border border-slate-200"
+          className="w-full max-w-[240px] rounded-xl shadow-sm border border-slate-200"
         />
       );
     }
     return (
-      <a href={mediaURL} target="_blank" rel="noreferrer" className="block max-w-xs rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+      <a href={mediaURL} target="_blank" rel="noreferrer" className="block w-full max-w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
         <img
           src={mediaURL}
           alt={item.name}
@@ -862,7 +862,7 @@ const MediaGrid = ({ items }) => {
 
   if (total === 2) {
     return (
-      <div className="grid grid-cols-2 gap-1 w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+      <div className="grid grid-cols-2 gap-1 w-full max-w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
         <div className="w-full aspect-square">{renderMediaItem(items[0], "w-full h-full object-cover")}</div>
         <div className="w-full aspect-square">{renderMediaItem(items[1], "w-full h-full object-cover")}</div>
       </div>
@@ -871,7 +871,7 @@ const MediaGrid = ({ items }) => {
 
   if (total === 3) {
     return (
-      <div className="grid grid-cols-3 gap-1 w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+      <div className="grid grid-cols-3 gap-1 w-full max-w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
         <div className="w-full aspect-square">{renderMediaItem(items[0], "w-full h-full object-cover")}</div>
         <div className="w-full aspect-square">{renderMediaItem(items[1], "w-full h-full object-cover")}</div>
         <div className="w-full aspect-square">{renderMediaItem(items[2], "w-full h-full object-cover")}</div>
@@ -882,7 +882,7 @@ const MediaGrid = ({ items }) => {
   // 4 or more items
   const remainingCount = total - 3;
   return (
-    <div className="grid grid-cols-2 gap-1 w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+    <div className="grid grid-cols-2 gap-1 w-full max-w-[240px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
       <div className="w-full aspect-square">{renderMediaItem(items[0], "w-full h-full object-cover")}</div>
       <div className="w-full aspect-square">{renderMediaItem(items[1], "w-full h-full object-cover")}</div>
       <div className="w-full aspect-square">{renderMediaItem(items[2], "w-full h-full object-cover")}</div>

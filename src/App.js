@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import Product from "./components/Product";
-import Spacial from "./components/Spacial";
+import NewArrivals from "./components/NewArrivals";
 import ClientChat from "./components/Chat/ClientChat";
 import { useContext } from "react";
 import { DataContext } from "./components/Contexts/DataContext";
@@ -50,7 +50,7 @@ function App() {
         <section id="Collection">
           <Product />
         </section>
-        <Spacial />
+        <NewArrivals />
       </section>
       <section>
         {isMobile ? <Feedback /> : <CustomerReview />}
@@ -58,7 +58,7 @@ function App() {
       <section>
         <Footer />
       </section>
-      {users.role == "Admin" ? null : <ClientChat />}
+      {users?.role === "Admin" ? null : <ClientChat />}
     </div>
   );
 }

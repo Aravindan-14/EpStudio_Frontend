@@ -12,6 +12,7 @@ import OrderList from "./components/OrderList";
 import PrivateRoute from "./PrivateRoute";
 import Layout from "./components/admin/Layout";
 import AboutUs from "./components/AboutUs";
+import Contact from "./components/Contact";
 
 function Routers() {
   return (
@@ -21,6 +22,7 @@ function Routers() {
         <Route path="/login" element={<Login />} />
         <Route path="/signUp" element={<Register />} />
         <Route path="/ablutUs" element={<AboutUs />} />
+        <Route path="/contact" element={<Contact />} />
 
         <Route element={<PrivateRoute />}>
           <Route path="/" element={<App />} />

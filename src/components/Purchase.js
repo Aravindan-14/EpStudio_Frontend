@@ -3,29 +3,46 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { DataContext } from "./Contexts/DataContext";
-import { mirage } from 'ldrs'
+import { mirage } from 'ldrs';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { 
+  User, 
+  Mail, 
+  Phone, 
+  MapPin, 
+  UploadCloud, 
+  CreditCard, 
+  Star, 
+  ArrowRight,
+  ShoppingBag
+} from "lucide-react";
 
 import { baseURL } from "../Utils/ServerUrl";
-mirage.register()
+mirage.register();
 
 function Purchase() {
-  var [inputs, setInputs] = useState({});
-  var [file, setFile] = useState({});
+  const [inputs, setInputs] = useState({});
+  const [file, setFile] = useState({});
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false)
-  const [output, setOutput] = useState("OpenCV.js is loading...");
-  const [isCvReady, setIsCvReady] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { productData } = location.state || {};
-  const { users, isAuth, setIsAuth, open, setOpen } = useContext(DataContext);
+  const { users } = useContext(DataContext);
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState("");
   const navigat = useNavigate();
+
+  // Redirect to home if accessed directly without product data
+  useEffect(() => {
+    if (!productData) {
+      navigat("/");
+    }
+  }, [productData, navigat]);
+
+  if (!productData) return null;
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -33,26 +50,23 @@ function Purchase() {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  console.log(productData, "from buy screen ");
-
-  useEffect(() => {
-    const checkCvReady = setInterval(() => {
-      if (window.cv && window.cv.imread) {
-        setIsCvReady(true);
-        setOutput("OpenCV.js is ready.");
-        clearInterval(checkCvReady);
-      }
-    }, 100);
-
-    return () => clearInterval(checkCvReady);
-  }, []);
-
   const handleImageUpload = (e) => {
-    setFile(e.target.files[0]);
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!file.name) {
+      toast.warning("Please upload an image for custom framing", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+      return;
+    }
+    
     setLoading(true);
     const formData = new FormData();
     formData.append("image", file);
@@ -77,21 +91,16 @@ function Purchase() {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
             theme: "light",
           });
         }
       })
       .catch((err) => {
-        toast.error("Something went wrong", {
+        console.error("Order submit error:", err);
+        toast.error("Something went wrong placing the order", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
           theme: "light",
         });
       })
@@ -101,18 +110,21 @@ function Purchase() {
   };
 
   const handleSubmitFeedback = async () => {
-    console.log({ rating, feedback });
-
     try {
-      const res = await axios.post(`${baseURL}/purchase/feedback`, { rating, feedback, CustomerId: users.id, CustomerName: users.name });
+      const res = await axios.post(`${baseURL}/purchase/feedback`, { 
+        rating, 
+        feedback, 
+        CustomerId: users.id, 
+        CustomerName: users.name 
+      });
 
       if (res.data.code === 200) {
         Swal.fire({
           title: "Order Placed Successfully",
           text: "Thank You For Your Feedback..",
           icon: "success",
-          timer: 2000, // Closes after 3 seconds
-          showConfirmButton: false, // Hides the "OK" button
+          timer: 2000,
+          showConfirmButton: false,
         });
         setIsOpen(false);
         navigat("/");
@@ -122,173 +134,248 @@ function Purchase() {
     }
   };
 
+  // Safe pricing calculation
+  const unitPrice = parseFloat(String(productData.price).replace(/,/g, "")) || 0;
+  const quantity = parseInt(productData.quantity) || 1;
+  const subtotal = unitPrice * quantity;
+  const deliveryFee = 0; // FREE Shipping
+  const total = subtotal + deliveryFee;
+
+  let productImages = [];
+  try {
+    productImages = JSON.parse(productData.image);
+  } catch (e) {}
+  const displayThumbnail = Array.isArray(productImages) && productImages.length > 0 
+    ? `${baseURL}/public/Products/${productImages[0]}`
+    : "";
+
   return (
     <>
       <Navbar />
-      <div className="bg-gray-100 flex justify-center items-center py-32 relative ">
-        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-6xl md:px-20">
-          <div>
-            <h2 className="text-2xl md:text-4xl font-semibold mb-6 text-center">
-              Purchase Product
+      <div className="bg-slate-50 min-h-screen flex justify-center items-center py-24 relative px-4 sm:px-6">
+        <div className="w-full max-w-6xl mt-8">
+          <div className="text-center mb-10">
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100/50">
+              Secure Checkout
+            </span>
+            <h2 className="text-3xl font-extrabold text-slate-800 mt-2">
+              Complete Your Purchase
             </h2>
-            <form
-              className="md:grid grid-cols-1 md:grid-cols-2 gap-5"
-              onSubmit={handleSubmit}
-            >
-              <div className="mb-1">
-                <label
-                  for="product-name"
-                  className="block text-gray-700 font-medium mb-2"
-                >
-                  Customer Name
-                </label>
-                <input
-                  onChange={handleChange}
-                  type="text"
-                  id="product-name"
-                  name="customer_Name"
-                  className="outline-none  w-full px-3 py-2 border border-gray-300 rounded-md "
-                />
-              </div>
-              <div className="mb-1">
-                <label
-                  for="quantity"
-                  className="block text-gray-700 font-medium mb-2"
-                >
-                  Email
-                </label>
-                <input
-                  onChange={handleChange}
-                  type="email"
-                  id="quantity"
-                  name="email"
-                  className="outline-none  w-full px-3 py-2 border border-gray-300 rounded-md "
-                />
-              </div>
-              <div className="mb-1">
-                <label
-                  for="card-number"
-                  className="block text-gray-700 font-medium mb-2"
-                >
-                  Phone No
-                </label>
-                <input
-                  onChange={handleChange}
-                  type="text"
-                  id="card-number"
-                  name="phone_No"
-                  className="outline-none  w-full px-3 py-2 border border-gray-300 rounded-md "
-                />
-              </div>
-              <div className="mb-1">
-                <label
-                  for="expiration-date"
-                  className="block text-gray-700 font-medium mb-2"
-                >
-                  Address
-                </label>
-                <input
-                  onChange={handleChange}
-                  type="text"
-                  id="expiration-date"
-                  name="address"
-                  placeholder=""
-                  className="outline-none  w-full px-3 py-2 border border-gray-300 rounded-md "
-                />
+            <div className="w-12 h-1 bg-indigo-500 mx-auto my-3 rounded-full"></div>
+          </div>
+
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Left Column: Checkout Inputs */}
+            <div className="lg:col-span-7 space-y-5 bg-white border border-slate-100 rounded-3xl p-6 lg:p-8 shadow-sm">
+              <h3 className="text-base font-bold text-slate-800 border-b border-slate-100 pb-3 mb-5">
+                Shipping & Customer Details
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Customer Name */}
+                <div className="flex flex-col">
+                  <label className="block text-slate-700 font-semibold mb-2 text-xs">
+                    Customer Name
+                  </label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                      <User size={15} />
+                    </span>
+                    <input
+                      onChange={handleChange}
+                      type="text"
+                      name="customer_Name"
+                      required
+                      placeholder="John Doe"
+                      className="outline-none w-full pl-10 pr-4 py-2.5 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 rounded-xl transition-all text-xs text-slate-700 placeholder-slate-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Email Address */}
+                <div className="flex flex-col">
+                  <label className="block text-slate-700 font-semibold mb-2 text-xs">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                      <Mail size={15} />
+                    </span>
+                    <input
+                      onChange={handleChange}
+                      type="email"
+                      name="email"
+                      required
+                      placeholder="john@example.com"
+                      className="outline-none w-full pl-10 pr-4 py-2.5 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 rounded-xl transition-all text-xs text-slate-700 placeholder-slate-400"
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div className="mb-1">
-                <label
-                  for="cvv"
-                  className="block text-gray-700 font-medium mb-2"
-                >
-                  Product Name
-                </label>
-                <input
-                  s
-                  // onChange={handleChange}
-                  type="text"
-                  id="product"
-                  name="product_Name"
-                  value={productData.name}
-                  readOnly
-                  className="outline-none  w-full px-3 py-2 border border-gray-300 rounded-md "
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Phone No */}
+                <div className="flex flex-col">
+                  <label className="block text-slate-700 font-semibold mb-2 text-xs">
+                    Phone Number
+                  </label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                      <Phone size={15} />
+                    </span>
+                    <input
+                      onChange={handleChange}
+                      type="tel"
+                      name="phone_No"
+                      required
+                      placeholder="9876543210"
+                      className="outline-none w-full pl-10 pr-4 py-2.5 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 rounded-xl transition-all text-xs text-slate-700 placeholder-slate-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Address */}
+                <div className="flex flex-col">
+                  <label className="block text-slate-700 font-semibold mb-2 text-xs">
+                    Delivery Address
+                  </label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                      <MapPin size={15} />
+                    </span>
+                    <input
+                      onChange={handleChange}
+                      type="text"
+                      name="address"
+                      required
+                      placeholder="123 Street Name, City"
+                      className="outline-none w-full pl-10 pr-4 py-2.5 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 rounded-xl transition-all text-xs text-slate-700 placeholder-slate-400"
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="mb-1">
-                <label
-                  for="cvv"
-                  className="block text-gray-700 font-medium mb-2"
-                >
-                  Product Price
+
+              {/* Upload Frame Image */}
+              <div className="flex flex-col pt-2">
+                <label className="block text-slate-700 font-semibold mb-2 text-xs">
+                  Upload Photo for Framing
                 </label>
-                <input
-                  // onChange={handleChange}
-                  type="text"
-                  id="cvv"
-                  value={productData.price}
-                  readOnly
-                  name="price"
-                  className="outline-none  w-full px-3 py-2 border border-gray-300 rounded-md "
-                />
-              </div>
-              <div className="mb-1">
-                <label
-                  for="cvv"
-                  className="block text-gray-700 font-medium mb-2"
+                <div 
+                  onClick={() => document.getElementById("file-upload").click()}
+                  className="border-2 border-dashed border-slate-200 hover:border-indigo-500 rounded-2xl p-6 bg-slate-50/50 hover:bg-slate-50 transition-all cursor-pointer flex flex-col items-center justify-center text-center group"
                 >
-                  Quantity
-                </label>
-                <input
-                  // onChange={handleChange}
-                  type="text"
-                  id="cvv"
-                  value={productData.quantity}
-                  readOnly
-                  name="quantity"
-                  className="outline-none  w-full px-3 py-2 border border-gray-300 rounded-md "
-                />
+                  <input
+                    type="file"
+                    id="file-upload"
+                    name="image"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    required
+                  />
+                  <div className="p-3 bg-white rounded-full shadow-sm text-slate-400 group-hover:text-indigo-600 transition-colors mb-3">
+                    <UploadCloud size={20} />
+                  </div>
+                  <span className="text-xs font-bold text-slate-700 block mb-1">
+                    {file.name ? file.name : "Choose a file or drag it here"}
+                  </span>
+                  <span className="text-[10px] text-slate-400">
+                    Supports high-resolution PNG, JPG, or JPEG (Max 10MB)
+                  </span>
+                </div>
               </div>
-              <div className="mb-1">
-                <label
-                  for="cvv"
-                  className="block text-gray-700 font-medium mb-2"
-                >
-                  Upload Image
-                </label>
-                <input
-                  onChange={handleImageUpload}
-                  type="file"
-                  id="cvv"
-                  name="image"
-                  className="outline-none  w-full px-3 py-2 border border-gray-300 rounded-md "
-                />
+            </div>
+
+            {/* Right Column: Checkout Invoice Card */}
+            <div className="lg:col-span-5 bg-white border border-slate-100 rounded-3xl p-6 lg:p-8 shadow-sm flex flex-col h-fit sticky top-28">
+              <h3 className="text-base font-bold text-slate-800 border-b border-slate-100 pb-3 mb-5">
+                Order Invoice
+              </h3>
+
+              {/* Product preview card */}
+              <div className="flex gap-4 items-center mb-6 bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                <div className="w-16 h-16 rounded-xl overflow-hidden bg-white border border-slate-200/80 shadow-sm flex-shrink-0">
+                  <img
+                    className="w-full h-full object-cover"
+                    src={displayThumbnail}
+                    alt={productData.name}
+                  />
+                </div>
+                <div className="flex-1 overflow-hidden">
+                  <h4 className="text-xs font-bold text-slate-800 truncate">
+                    {productData.name}
+                  </h4>
+                  <div className="flex gap-2 mt-1.5 flex-wrap">
+                    <span className="px-2 py-0.5 bg-slate-100 text-slate-600 text-[8px] font-bold uppercase rounded-md border border-slate-200/50">
+                      Size: {productData.Frame_Size || "Standard"}
+                    </span>
+                    <span className="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-[8px] font-bold uppercase rounded-md border border-indigo-100/50">
+                      Qty: {productData.quantity}
+                    </span>
+                  </div>
+                </div>
               </div>
+
+              {/* Pricing Breakdown */}
+              <div className="space-y-3 border-b border-slate-100 pb-4 mb-4 text-xs">
+                <div className="flex justify-between text-slate-500">
+                  <span>Price per item</span>
+                  <span className="font-semibold text-slate-700">Rs. {unitPrice.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between text-slate-500">
+                  <span>Subtotal</span>
+                  <span className="font-semibold text-slate-700">Rs. {subtotal.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between text-slate-500">
+                  <span>Shipping Fee</span>
+                  <span className="text-emerald-600 font-bold">FREE</span>
+                </div>
+              </div>
+
+              {/* Grand Total */}
+              <div className="flex justify-between items-baseline mb-6 px-1">
+                <span className="text-xs font-extrabold text-slate-700 uppercase tracking-wider">Total</span>
+                <span className="text-2xl font-black text-slate-900">
+                  Rs. {total.toLocaleString()}
+                </span>
+              </div>
+
+              {/* Submit Checkout Button */}
               <button
                 type="submit"
-                className=" items-center justify-center h-10 flex  my-5 col-span-2 w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 "
+                disabled={loading}
+                className="w-full h-11 flex items-center justify-center bg-slate-950 hover:bg-indigo-600 disabled:bg-slate-400 text-white font-bold rounded-xl transition-all duration-300 shadow-md hover:shadow-lg gap-2 text-xs uppercase tracking-wider"
               >
-                {loading ? <l-mirage
-                  size="90"
-                  speed="3.7"
-                  color="white"
-                ></l-mirage> : "Login"}
+                {loading ? (
+                  <l-mirage size="90" speed="3.7" color="white"></l-mirage>
+                ) : (
+                  <>
+                    <CreditCard size={14} />
+                    <span>Place Order</span>
+                  </>
+                )}
               </button>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
 
+        {/* Feedback Modal */}
         {isOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-[999999]">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-              <h2 className="text-xl font-semibold text-center">How many stars would you like to give us?</h2>
-              <h2 className="text-sm my-2 text-center">Your feedback helps us improve our services and better serve our community.</h2>
+          <div className="fixed inset-0 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm z-[999999]">
+            <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-sm border border-slate-100 flex flex-col items-center text-center m-4">
+              <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mb-4 shadow-sm border border-indigo-100/30">
+                <Star size={22} fill="currentColor" className="stroke-none" />
+              </div>
+              <h2 className="text-base font-extrabold text-slate-800">Share Your Experience</h2>
+              <p className="text-[11px] text-slate-400 mt-2 mb-6 max-w-xs leading-relaxed">
+                Your feedback helps us refine our collections and deliver better studio designs.
+              </p>
 
-              <div className="flex justify-center gap-1 my-4">
+              {/* Stars selection */}
+              <div className="flex justify-center gap-1.5 mb-6">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
-                    className={`h-8 w-8 cursor-pointer my-1 text-4xl ${rating >= star ? "text-yellow-400" : "text-gray-300"}`}
+                    className={`text-4xl cursor-pointer transition-all duration-200 hover:scale-110 select-none ${rating >= star ? "text-amber-400" : "text-slate-200 hover:text-amber-200"}`}
                     onClick={() => setRating(star)}
                   >
                     ★
@@ -297,15 +384,31 @@ function Purchase() {
               </div>
 
               <textarea
-                className="w-full p-2 border rounded-md"
-                placeholder="Share your feedback..."
+                className="w-full p-3.5 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 rounded-2xl outline-none text-xs text-slate-700 placeholder-slate-400 min-h-24 resize-none mb-6 shadow-inner"
+                placeholder="Write a brief review..."
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
               />
 
-              <div className="flex justify-end gap-2 mt-4">
-                <button className="px-4 py-2 border rounded" onClick={() => setIsOpen(false)}>Skip</button>
-                <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={handleSubmitFeedback} disabled={!rating && !feedback}>Submit</button>
+              <div className="flex gap-3 w-full">
+                <button 
+                  type="button"
+                  className="flex-1 py-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-bold text-slate-500 rounded-xl transition-all" 
+                  onClick={() => {
+                    setIsOpen(false);
+                    navigat("/");
+                  }}
+                >
+                  Skip
+                </button>
+                <button 
+                  type="button"
+                  className="flex-1 py-2.5 bg-slate-950 hover:bg-indigo-600 disabled:bg-slate-200 disabled:text-slate-400 text-xs font-bold text-white rounded-xl transition-all shadow-sm" 
+                  onClick={handleSubmitFeedback} 
+                  disabled={!rating && !feedback}
+                >
+                  Submit
+                </button>
               </div>
             </div>
           </div>

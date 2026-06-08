@@ -219,7 +219,7 @@ const Layout = () => {
         </header>
 
         {/* Dynamic Inner Workspace */}
-        <main className="flex-1 overflow-auto bg-slate-50 p-6">
+        <main className="flex-1 overflow-auto bg-slate-50 p-3 md:p-6">
           {renderView()}
         </main>
       </div>
