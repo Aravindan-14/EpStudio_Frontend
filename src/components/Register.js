@@ -40,23 +40,40 @@ function Register() {
     if (validate()) {
       setLoading(true);
       axios
-        .post("https://epstudio-api.onrender.com/register", data)
+        .post(`${baseURL}/register`, data)
         .then((res) => {
-          toast.success("Account Created..", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "light",
-          });
-          setData({ name: "", email: "", password: "", ConfirmPassword: "" });
-          setLoading(false);
-          navigate("/login");
+          // Parse JSON payload or legacy text responses safely
+          const resData = typeof res.data === "string" ? { code: res.status, message: res.data } : res.data;
+          
+          if (resData.code === 200 || resData.message === "User Added...") {
+            toast.success("Account Created..", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              theme: "light",
+            });
+            setData({ name: "", email: "", password: "", ConfirmPassword: "" });
+            setLoading(false);
+            navigate("/login");
+          } else {
+            toast.error(resData.message || "Registration failed! try again.", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              theme: "light",
+            });
+            setLoading(false);
+          }
         })
         .catch((err) => {
-          toast.error("Registration failed! try again.", {
+          const errMsg = err.response?.data?.message || "Registration failed! try again.";
+          toast.error(errMsg, {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: true,

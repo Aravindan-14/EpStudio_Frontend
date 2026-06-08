@@ -58,7 +58,7 @@ function Navbar() {
                   <li className="font-light hover:text-blue-500">About Us</li>
                 </Link>
                 <li className="font-light hover:text-blue-500">Contact</li>
-                {users.role == "Admin" ? (
+                {users?.role == "Admin" ? (
                   <Link to="/admin">
                     <li className="font-light hover:text-blue-500">Admin</li>
                   </Link>
@@ -67,7 +67,7 @@ function Navbar() {
             </div>
           </div>
           <div className="flex justify-center items-center gap-5 md:gap-8">
-            {users.role != "Admin" && (
+            {users?.role != "Admin" && (
               <button
                 onClick={() => {
                   setOpen(!open);
@@ -76,7 +76,7 @@ function Navbar() {
                 <i class="fa-regular fa-message"></i>
               </button>
             )}
-            {users.role != "Admin" && (
+            {users?.role != "Admin" && (
               <Link to="/orderList" className="cursor-pointer">
                 <i class="fa-solid fa-cart-shopping"></i>
               </Link>
@@ -87,7 +87,7 @@ function Navbar() {
                   className="text-xl font-semibold hover:text-blue-600 hidden md:block"
                   style={{ fontFamily: "Cinzel, serif" }}
                 >
-                  {users.name.toUpperCase()}
+                  {users?.name?.toUpperCase()}
                 </h1>
                 <div className=" h-8 w-8 rounded-full overflow-hidden  cursor-pointer bg-blue-950 flex justify-center items-center border-blue-500 border">
                   <Link to="/profile">
@@ -98,7 +98,7 @@ function Navbar() {
                         className="text-xl text-gray-100 pb-1"
                         style={{ fontFamily: "Libre Baskerville, serif " }}
                       >
-                        {users.name.charAt(0).toUpperCase()}
+                        {users?.name?.charAt(0).toUpperCase()}
                       </h1>
                     )}
                   </Link>
@@ -123,7 +123,7 @@ function Navbar() {
           <li className="font-light hover:text-blue-500 " onClick={() => setToggle(false)}><Link to="/#Collection"> Collection</Link></li>
           <li className="font-light hover:text-blue-500 " onClick={() => setToggle(false)}> <Link to="/ablutUs">About Us </Link></li>
           <li className="font-light hover:text-blue-500 " onClick={() => setToggle(false)}>Contact</li>
-          {users.role == "Admin" ? (
+          {users?.role == "Admin" ? (
             <Link to="/admin">
               <li className="font-light hover:text-blue-500 ">Admin</li>
             </Link>
