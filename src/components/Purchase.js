@@ -15,9 +15,7 @@ import {
   MapPin, 
   UploadCloud, 
   CreditCard, 
-  Star, 
-  ArrowRight,
-  ShoppingBag
+  Star
 } from "lucide-react";
 
 import { baseURL } from "../Utils/ServerUrl";

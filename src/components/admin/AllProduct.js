@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import { baseURL } from "../../Utils/ServerUrl";
 import { DataContext } from "../Contexts/DataContext";
 import Swal from "sweetalert2";
@@ -11,7 +11,6 @@ import {
   Search,
   Trash2,
   Edit,
-  Plus,
   X,
   UploadCloud,
   FileCode
@@ -37,7 +36,7 @@ function AllProduct() {
   const [editFiles, setEditFiles] = useState([]);
 
   // Fetch all products, orders, and chats for statistics and data
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
       // 1. Fetch Products
@@ -64,11 +63,11 @@ function AllProduct() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [users?.id]);
 
   useEffect(() => {
     fetchData();
-  }, [users?.id]); // Only refetch when user id resolves or initially
+  }, [fetchData]); // Only refetch when user id resolves or initially
 
   const deleteProductById = async (id, name) => {
     Swal.fire({

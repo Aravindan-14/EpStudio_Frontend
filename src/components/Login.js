@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import loginbanner from "../Assets/commenAssets/loginbanner.jpg"
 import { baseURL } from "../Utils/ServerUrl";
@@ -122,12 +120,12 @@ function Login() {
                   Remember this Device
                 </span>
               </label>
-              <a
-                href="#"
-                className="text-sm text-blue-500 hover:underline font-roboto"
+              <button
+                type="button"
+                className="text-sm text-blue-500 hover:underline font-roboto bg-transparent border-0 p-0 cursor-pointer"
               >
                 Forgot Password?
-              </a>
+              </button>
             </div>
             <button
               type="submit"

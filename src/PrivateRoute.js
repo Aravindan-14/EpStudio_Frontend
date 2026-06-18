@@ -13,44 +13,44 @@ const PrivateRoutes = () => {
   const { setUsers, isAuth, setIsAuth } = useContext(DataContext);
 
   useEffect(() => {
-    ValidToken();
-  }, []);
+    async function ValidToken() {
+      const token = localStorage.getItem("token");
+      const authdata = JSON.parse(token);
 
-  async function ValidToken() {
-    const token = localStorage.getItem("token");
-    const authdata = JSON.parse(token);
-
-    if (!authdata || !authdata.token) {
-      setIsAuth(false);
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const res = await axios.post(
-        `${baseURL}/register/validtoken`,
-        {},
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${authdata.token}`,
-          },
-        }
-      );
-
-      if (res.data.message === "Token Valid") {
-        setIsAuth(true);
-        setUsers(authdata);
-      } else {
+      if (!authdata || !authdata.token) {
         setIsAuth(false);
+        setLoading(false);
+        return;
       }
-    } catch (error) {
-      console.error("Error validating token", error);
-      setIsAuth(false);
-    } finally {
-      setLoading(false); // stop loading after the check completes
+
+      try {
+        const res = await axios.post(
+          `${baseURL}/register/validtoken`,
+          {},
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${authdata.token}`,
+            },
+          }
+        );
+
+        if (res.data.message === "Token Valid") {
+          setIsAuth(true);
+          setUsers(authdata);
+        } else {
+          setIsAuth(false);
+        }
+      } catch (error) {
+        console.error("Error validating token", error);
+        setIsAuth(false);
+      } finally {
+        setLoading(false); // stop loading after the check completes
+      }
     }
-  }
+
+    ValidToken();
+  }, [setIsAuth, setUsers, setLoading]);
 
   if (loading) {
     return <div className="h-screen w-screen flex justify-center items-center">
