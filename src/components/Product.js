@@ -7,7 +7,6 @@ import { baseURL } from "../Utils/ServerUrl";
 function Product() {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
-  const [notFound, setNotFound] = useState(false);
   useEffect(() => {
     axios
       .get(`${baseURL}/product/allProducts`)

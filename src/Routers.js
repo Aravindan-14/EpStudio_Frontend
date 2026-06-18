@@ -4,7 +4,7 @@ import App from "./App";
 import Description from "./components/Description";
 import Profile from "./components/Profile";
 import Purchase from "./components/Purchase";
-import CreatePost from "./components/CreatePost";
+// import CreatePost from "./components/CreatePost";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import OrderList from "./components/OrderList";

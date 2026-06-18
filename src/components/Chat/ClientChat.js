@@ -3,7 +3,6 @@ import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
-  DialogTitle,
 } from "@headlessui/react";
 import { DataContext } from "../Contexts/DataContext";
 import axios from "axios";

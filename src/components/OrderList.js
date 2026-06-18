@@ -19,7 +19,7 @@ import {
 import Swal from "sweetalert2";
 
 function OrderList({ show }) {
-  const { users, isAuth } = useContext(DataContext);
+  const { users } = useContext(DataContext);
   const [order, setOrder] = useState([]);
   const [filter, setFilter] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
